@@ -5,6 +5,18 @@ const   express = require('express'),
         mysql = require('./mysql_config'),
         moment = require('moment');
 
+
+router.get('/seat', (req,res) => {
+    res.render('partials/seatclass');
+})
+
+router.post('/seatAdd', (req,res) => {
+    var data = req.body;
+    var sql = "INSERT INTO `seatclass` (`ClassName(PK)`, `Price`, `Couple`, `FreeFood`, `Width`, `Height`) VALUES ('"+
+                data.Name+"','"+ data.Price+"','"+data.Couple+"','"+data.FreeFood+"','"+data.Width+"','"+data.Height+"')";
+    mysql.insert(sql);
+})
+
 router.all('/', (req, res) => {
     // mysql.connect('CREATE TABLE IF NOT EXISTS tasks (task_id INT AUTO_INCREMENT,title VARCHAR(255) NOT NULL,PRIMARY KEY (task_id));')
     //     .then((resp)=>{

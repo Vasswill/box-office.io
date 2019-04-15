@@ -1,0 +1,33 @@
+input[type="text"], input[type="number"], textarea {
+    outline: none;
+    box-shadow:none !important;
+    border:1px solid var(--color-ground-black) ;
+    border-bottom: 1px solid var(--color-gray);
+}
+
+@media (min-width: 768px) {
+    .container {
+         width: 750px !important;
+    }
+}
+
+.btn-outline-danger , .btn-outline-success {
+    color: white !important; 
+    border-color: var(--color-ground-black) !important; 
+}
+
+.btn-white-rounded{
+    background: transparent;
+    color: white !important;
+    border: 1px solid white !important;
+    border-radius: 1.5rem !important;
+}
+
+.material-icons, .icon-text {
+    vertical-align: middle;
+}
+
+#Create{
+    font-size: 1rem !important;
+    vertical-align: middle;
+}
