@@ -7,12 +7,13 @@ const mysql_connection = mysql.createConnection({
     database : 'db_boxoffice_io'
 });
 
+mysql_connection.connect();
+
 const connect = (query) => {
     return new Promise(function(resolve, reject){
-        mysql_connection.connect();
+        
         mysql_connection.query(query, (err, rows, fields)=>{
             if(err) reject(err);
-            mysql_connection.end()
             resolve({
                 rows: rows,
                 fields: fields

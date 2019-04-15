@@ -1,4 +1,4 @@
-input[type="text"], input[type="number"], textarea {
+input[type="text"], input[type="number"], select, textarea {
     outline: none;
     box-shadow:none !important;
     border:1px solid var(--color-ground-black) ;
@@ -30,4 +30,14 @@ input[type="text"], input[type="number"], textarea {
 #Create{
     font-size: 1rem !important;
     vertical-align: middle;
+}
+
+#adj{
+    padding-left: 58px !important;
+}
+
+.btn-white-clean{
+    background: transparent;
+    color: white !important;
+    border: 0px; 
 }

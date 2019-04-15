@@ -5,6 +5,23 @@ const   express = require('express'),
         mysql = require('./mysql_config'),
         moment = require('moment');
 
+router.get('/fetchBranchData', (req,res) => {
+    var sql = "SELECT * FROM `branch`";
+    mysql.connect(sql)
+        .then((resp)=>{
+            //console.log(resp);
+            res.send(resp.rows);
+        });
+})
+
+router.get('/fetchSeatClasshData', (req,res) =>{
+    var sql = "SELECT * FROM `seatclass`";
+    mysql.connect(sql)
+        .then((resp)=>{
+            //console.log(resp);
+            res.send(resp.rows);
+        });
+});
 
 router.get('/seat', (req,res) => {
     res.render('partials/seatclass');
@@ -18,10 +35,11 @@ router.post('/seatAdd', (req,res) => {
         .then((resp)=>{
             console.log(resp);
             res.redirect('/seat');
-        })
-        .catch((err)=>{
-            console.log(err);
         });
+})
+
+router.get('/plan', (req,res)=>{
+    res.render('partials/plan');
 })
 
 router.all('/', (req, res) => {
