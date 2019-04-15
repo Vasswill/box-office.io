@@ -37,6 +37,7 @@ const insert = (sql) => {
                 });
             }
         });
+        mysql_connection.end();
     });
 }
 

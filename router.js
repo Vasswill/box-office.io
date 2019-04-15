@@ -15,6 +15,7 @@ router.post('/seatAdd', (req,res) => {
     var sql = "INSERT INTO `seatclass` (`ClassName(PK)`, `Price`, `Couple`, `FreeFood`, `Width`, `Height`) VALUES ('"+
                 data.Name+"','"+ data.Price+"','"+data.Couple+"','"+data.FreeFood+"','"+data.Width+"','"+data.Height+"')";
     mysql.insert(sql);
+    res.render('partials/seatclass');
 })
 
 router.all('/', (req, res) => {
