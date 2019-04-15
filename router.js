@@ -14,8 +14,14 @@ router.post('/seatAdd', (req,res) => {
     var data = req.body;
     var sql = "INSERT INTO `seatclass` (`ClassName(PK)`, `Price`, `Couple`, `FreeFood`, `Width`, `Height`) VALUES ('"+
                 data.Name+"','"+ data.Price+"','"+data.Couple+"','"+data.FreeFood+"','"+data.Width+"','"+data.Height+"')";
-    mysql.insert(sql);
-    res.render('partials/seatclass');
+    mysql.connect(sql)
+        .then((resp)=>{
+            console.log(resp);
+            res.redirect('/seat');
+        })
+        .catch((err)=>{
+            console.log(err);
+        });
 })
 
 router.all('/', (req, res) => {

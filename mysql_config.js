@@ -21,28 +21,8 @@ const connect = (query) => {
     });
 }
 
-const insert = (sql) => {
-    return new Promise( (resolve, reject)=>{
-        mysql_connection.connect((err) => {
-            if(err) {
-                console.log(err);
-                reject(err);
-            }
-            else{
-                console.log("Connected!");
-                console.log(sql);
-                mysql_connection.query(sql, (err, result) => {
-                    if(err) console.log(err);
-                    else console.log("Number of records inserted: "+ result.affectedRows);
-                });
-            }
-        });
-        mysql_connection.end();
-    });
-}
 
-
-module.exports = {connect: connect , insert : insert};
+module.exports = {connect: connect};
 
 // ==== MySQL DB @ db4free.net ====
 // host: 85.10.205.173 or db4free.net
