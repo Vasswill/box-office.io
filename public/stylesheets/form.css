@@ -41,3 +41,9 @@ input[type="text"], input[type="number"], select, textarea {
     color: white !important;
     border: 0px; 
 }
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}

@@ -13,15 +13,32 @@ const connect = (query) => {
     return new Promise(function(resolve, reject){
         
         mysql_connection.query(query, (err, rows, fields)=>{
-            if(err) reject(err);
+            if(err){
+                //console.log(err);
+                if(err.code==='ECONNRESET'){
+                    console.log(query);
+                    //renew();
+                }
+                else reject(err);
+            }
+            
             resolve({
                 rows: rows,
                 fields: fields
             });
+            
+            
+            //mysql_connection.end();
         });
+        
     });
 }
 
+const renew = ()=>{
+    return new Promise(()=>{
+        mysql_connection.connect();
+    });
+}
 
 module.exports = {connect: connect};
 
