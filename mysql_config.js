@@ -21,22 +21,13 @@ const connect = (query) => {
                 }
                 else reject(err);
             }
-            
             resolve({
                 rows: rows,
                 fields: fields
             });
-            
-            
             //mysql_connection.end();
         });
         
-    });
-}
-
-const renew = ()=>{
-    return new Promise(()=>{
-        mysql_connection.connect();
     });
 }
 
