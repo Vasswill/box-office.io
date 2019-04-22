@@ -131,15 +131,10 @@ button > i{
 .program-row .poster-card{
     display: inline-block;
     position: relative;
-    border-radius: 0.25rem;
     margin: auto 10px;
     width: 192px;
     height: 288px;
     overflow: hidden;
-    -webkit-border-radius: 0.25rem;
-    -moz-border-radius: 0.25rem;
-    -ms-border-radius: 0.25rem;
-    -o-border-radius: 0.25rem;
     transition: all ease-in-out 0.3s;
     -webkit-transition: all ease-in-out 0.3s;
     -moz-transition: all ease-in-out 0.3s;
@@ -159,6 +154,11 @@ button > i{
     -moz-transform: scale(1.05) translateY(-50%);
     -ms-transform: scale(1.05) translateY(-50%);
     -o-transform: scale(1.05) translateY(-50%);
+}
+.program-row .poster-card.selected{
+    position: absolute;
+    border: 1px solid white;
+    
 }
 .program-row .poster-card>img{
     max-height: 100%;
@@ -237,10 +237,22 @@ button > i{
     -ms-border-radius: 100px;
     -o-border-radius: 100px;
 }
-.side-bar .side-bar-icon:hover{
+.side-bar .side-bar-icon.special{
+    color: gold;
+    border: 1px dashed gold;
+}
+.side-bar .side-bar-icon.special:hover:enabled{
+    border: 1px solid gold;
+    background: gold;
+    color: #674a01;
+}
+.side-bar .side-bar-icon:hover:enabled{
     border: 1px solid white;
     background: white;
-    color: #1E2124;
+    color: black;
+}
+.side-bar .side-bar-icon:disabled{
+    opacity: 0.4;
 }
 .side-bar .side-bar-icon > i{
     margin-left: 0!important;

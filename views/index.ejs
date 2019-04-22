@@ -1,14 +1,4 @@
 <%- include partials/head %>
-<div class='content-box'>
-    <div class='side-bar'>
-        <button class='side-bar-icon'>
-            <i class="fas fa-sign"></i>
-        </button>
-        <button class='side-bar-icon'>
-            <i class="fas fa-calendar-day"></i>
-        </button>
-    </div>
-    <div class="content container-fluid">
         <div class='content-view'>
             <div class='head-group' data-color='red'>
                 <span class='head-text level1'>Now Showing</span>
@@ -19,16 +9,11 @@
             <div class='program-row'>
                 <%for(let i=0; i<10; i++){%>
                         <div class='poster-card'>
-                                <img src="https://s.studiobinder.com/wp-content/uploads/2017/12/Movie-Poster-Template-Dark-with-Image.jpg?x81279&resolution=2560,2" alt="">
-                            </div>
+                            <img src="https://s.studiobinder.com/wp-content/uploads/2017/12/Movie-Poster-Template-Dark-with-Image.jpg?x81279&resolution=2560,2" alt="">
+                        </div>
                 <%}%>
             </div> 
         </div>
-    </div> 
-</div>
-
-
-
 <script>
     $('.nshowing').text($('.program-row .poster-card').length);
 </script>
