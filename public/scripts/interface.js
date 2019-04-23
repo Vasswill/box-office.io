@@ -10,3 +10,6 @@ $('button').click(function(){
         $('#'+popupId).show();
     }
 })
+$('.logo').dblclick(function(){
+    $('.content-box').toggleClass('special-mode');
+});

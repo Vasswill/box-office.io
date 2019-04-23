@@ -118,7 +118,7 @@ button > i{
     right: 0;
     z-index: 10;
     height: 50px;
-    background-color: black;
+    background-color: #00000091;
 }
 
 .program-row{
@@ -205,6 +205,18 @@ button > i{
     height: 100%!important;
     flex-direction: row;
     justify-content: flex-start;
+}
+
+.content-box.special-mode:after{
+    content: "";
+    background: url('https://cdn.vox-cdn.com/thumbor/d6wtHH8GMdQfgJCtWUc2U0isOLw=/0x0:2400x1228/820x461/filters:focal(1060x42:1444x426):format(webp)/cdn.vox-cdn.com/uploads/chorus_image/image/59516921/avengers_thanos_concept.0.jpg');
+    opacity: 0.2;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    z-index: -1;
 }
 
 .content-box .side-bar{
