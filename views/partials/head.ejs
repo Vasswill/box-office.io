@@ -10,25 +10,28 @@
         <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        
+        
     </head>
     <body>
-        <div id='top-bar' class="container-fluid">
-            <i class="fas fa-tape logo"></i>
-            <button class='btn-white'>
-                <span>Login</span>
-                <i class="fas fa-user-circle" style="font-size:1.2rem;"></i>
-            </button>
-        </div>
-        <div class='content-box'>
-                <div class='side-bar'>
-                    <button class='side-bar-icon'>
-                        <i class="fas fa-sign"></i>
-                    </button>
-                    <button class='side-bar-icon' disabled>
-                        <i class="fas fa-calendar-day"></i>
-                    </button>
-                    <button class='side-bar-icon special' disabled>
-                        <i class="fas fa-toolbox"></i>
-                    </button>
-                </div>
-                <div class="content container-fluid">
+        <div class="web-body">
+            <div id='top-bar' class="container-fluid">
+                <i class="fas fa-tape logo"></i>
+                <button class='btn-white' data-popup='login-popup'>
+                    <span>Login</span>
+                    <i class="fas fa-user-circle" style="font-size:1.2rem;"></i>
+                </button>
+            </div>
+            <div class='content-box'>
+                    <div class='side-bar'>
+                        <button class='side-bar-icon'>
+                            <i class="fas fa-sign"></i>
+                        </button>
+                        <button class='side-bar-icon' disabled>
+                            <i class="fas fa-calendar-day"></i>
+                        </button>
+                        <button class='side-bar-icon special' disabled>
+                            <i class="fas fa-toolbox"></i>
+                        </button>
+                    </div>
+                    <div class="content container-fluid">
