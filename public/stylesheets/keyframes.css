@@ -1,0 +1,43 @@
+@keyframes showNav {
+    from {
+        opacity: 0;
+        top:-100;
+    }
+    to {
+        opacity: 1;
+        top:0;
+    }
+}
+
+@-webkit-keyframes showNav {
+    from {
+        opacity: 0;
+        top:-100;
+    }
+    to {
+        opacity: 1;
+        top:0;
+    }
+}
+
+@-o-keyframes showNav {
+    from {
+        opacity: 0;
+        top:-100;
+    }
+    to {
+        opacity: 1;
+        top:0;
+    }
+}
+
+@-moz-keyframes showNav {
+    from {
+        opacity: 0;
+        top:-100;
+    }
+    to {
+        opacity: 1;
+        top:0;
+    }
+}
