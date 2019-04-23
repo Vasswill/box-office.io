@@ -209,7 +209,9 @@ button > i{
 
 .content-box.special-mode:after{
     content: "";
-    background: url('https://cdn.vox-cdn.com/thumbor/d6wtHH8GMdQfgJCtWUc2U0isOLw=/0x0:2400x1228/820x461/filters:focal(1060x42:1444x426):format(webp)/cdn.vox-cdn.com/uploads/chorus_image/image/59516921/avengers_thanos_concept.0.jpg');
+    background: url('/assets/images/avengers.jpg') no-repeat center center fixed;
+    background-size: cover;
+    -webkit-background-size: cover;
     opacity: 0.2;
     top: 0;
     left: 0;
