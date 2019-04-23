@@ -68,11 +68,9 @@ button > i{
     -ms-border-radius: 3rem;
     -o-border-radius: 3rem;
 }
-.btn-splash > span{
-    width: 0;
-}
-.btn-splash:hover > span{
-    width: 100%;
+.btn-center{
+    justify-content: center;
+    padding: 7px;
 }
 .btn-white{
     background: transparent;
@@ -256,4 +254,100 @@ button > i{
 }
 .side-bar .side-bar-icon > i{
     margin-left: 0!important;
+}
+
+.popup-area{
+    position: absolute;
+    z-index: 20;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+}
+
+.popup-window{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    width: 90vw;
+    max-width: 300px;
+    height: fit-content;
+    background: white;
+    color: black;
+    padding: 10px;
+}
+
+.popup-window .popup-head, .popup-window .popup-footer{
+    width: 100%;
+    height: 30px;
+    display: flex;
+    
+    
+}
+.popup-window .popup-head{
+    justify-content: flex-end;
+    align-items: flex-start;
+}
+.popup-window .popup-footer{
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.popup-window .popup-body{
+    flex: 1;
+    padding: 10px;
+}
+
+.popup-window .form-group, .popup-window .form-control, .popup-window button{
+    color: black!important;
+    border-color: black;
+}
+.popup-window input{
+    border-style: dashed;
+}
+.popup-window input:focus{
+    border-style: solid;
+}
+
+.popup-window button:hover{
+    color: white!important;
+    background: black;
+}
+
+.popup-window #popup-head-text{
+    margin: auto;
+}
+.popup-window #popup-close{
+    position: absolute;
+}
+
+.form-group{
+    font-size: .85rem;
+    color: #ffffffb0;
+}
+
+.form-control{
+    height: 25px!important;
+    border-radius: 0!important;
+    background: transparent!important;
+    -webkit-border-radius: 0!important;
+    -moz-border-radius: 0!important;
+    -ms-border-radius: 0!important;
+    -o-border-radius: 0!important;
+    border-top: 0!important;
+    border-left: 0!important;
+    border-right: 0!important;
+    box-shadow: none!important;
+}
+
+.form-control:focus{
+    background: transparent!important;
+    border-color: black!important;
 }
