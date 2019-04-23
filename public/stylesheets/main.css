@@ -351,3 +351,8 @@ button > i{
     background: #ffffff12!important;
     border-color: unset!important;
 }
+
+.content-view, .content-form{
+    margin: 10px;
+    margin-bottom: 35px;
+}
