@@ -17,6 +17,12 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </head>
 <body>
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>Warning!</strong> You should check input in on some of those fields below.
+        <button type="button" class="close " onclick="$('.alert').hide()" >
+                <i class="material-icons" >remove_circle</i>
+        </button>
+    </div>
     <form action="/planAdd" method="POST" role="form">
         <div class="container-fluid">
             <div class="row">

@@ -30,7 +30,7 @@ router.get('/seat', (req,res) => {
 router.post('/seatAdd', (req,res) => {
     var data = req.body;
     var sql = "INSERT INTO `seatclass` (`ClassName`, `Price`, `Couple`, `FreeFood`, `Width`, `Height`) VALUES ('"+
-                data.Name+"','"+ data.Price+"','"+data.Couple+"','"+data.FreeFood+"','"+data.Width+"','"+data.Height+"')";
+                data.Name+"','"+ data.Price+"','"+data.Couple+"','"+data.FreeFood+"','"+data.Width/100+"','"+data.Height/100+"')";
     mysql.connect(sql)
         .then((resp)=>{
             console.log(resp);
