@@ -11,6 +11,7 @@
     --color-lightgreen-1: #7EF36F;
     --color-lightgreen-2: rgb(105, 206, 87);
     --color-green: #70e1a1;
+    --color-darkgreen: #4b9d85;
     --color-green-tran-1: rgba(78, 196, 129, 0.2);
     --color-green-tran-2: rgba(78, 196, 129, 0.4);
 }
@@ -118,7 +119,7 @@ button > i{
     right: 0;
     z-index: 10;
     height: 50px;
-    background-color: black;
+    background-color: #00000091;
 }
 
 .program-row{
@@ -180,6 +181,18 @@ button > i{
     margin-bottom: 5px;
 }
 
+.head-group > .level0, .head-text.level0{
+    display: block;
+    color: white;
+    font-weight: 600;
+    font-size: 1.3rem;
+    line-height: initial;
+    border: 1px solid #ffffff38;
+    padding: 7px;
+    width: fit-content;
+    box-shadow: 0px 3px 0px 0px white;
+}
+
 .head-group > .level1{
     display: block;
     color: white;
@@ -205,6 +218,20 @@ button > i{
     height: 100%!important;
     flex-direction: row;
     justify-content: flex-start;
+}
+
+.content-box.special-mode:after{
+    content: "";
+    background: url('/assets/images/avengers.jpg') no-repeat center center fixed;
+    background-size: cover;
+    -webkit-background-size: cover;
+    opacity: 0.2;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    z-index: -1;
 }
 
 .content-box .side-bar{
@@ -240,10 +267,20 @@ button > i{
     color: gold;
     border: 1px dashed gold;
 }
+
 .side-bar .side-bar-icon.special:hover:enabled{
     border: 1px solid gold;
     background: gold;
     color: #674a01;
+}
+.side-bar .side-bar-icon.special.sp-green{
+    color: var(--color-green);
+    border: 1px dashed var(--color-green);
+}
+.side-bar .side-bar-icon.special.sp-green:hover:enabled{
+    border: 1px solid var(--color-green);
+    background: var(--color-green);
+    color: black;
 }
 .side-bar .side-bar-icon:hover:enabled{
     border: 1px solid white;
@@ -350,4 +387,9 @@ button > i{
 .form-control:focus, .form-control:hover{
     background: #ffffff12!important;
     border-color: unset!important;
+}
+
+.content-view, .content-form{
+    margin: 10px;
+    margin-bottom: 35px;
 }

@@ -1,4 +1,13 @@
-<%- include partials/head %>
+<%- include('partials/head', {mode: 'user'});  %>
+        
+        <div class='content-view'>
+            <div class='head-group' data-color='red'>
+                <span class='head-text level1'>Highlight</span>
+                <span class='head-text level2'>Play now at your nearest cinema</span>
+            </div>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/0LHxvxdRnYc" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+
         <div class='content-view'>
             <div class='head-group' data-color='red'>
                 <span class='head-text level1'>Now Showing</span>
@@ -14,7 +23,5 @@
                 <%}%>
             </div> 
         </div>
-<script>
-    $('.nshowing').text($('.program-row .poster-card').length);
-</script>
+        <!-- <%- include partials/form-reserv %> -->
 <%- include partials/foot %>  

@@ -7,25 +7,15 @@ const mysql_connection = mysql.createConnection({
     database : 'db_boxoffice_io'
 });
 
-mysql_connection.connect();
 
 const connect = (query) => {
     return new Promise(function(resolve, reject){
-        
         mysql_connection.query(query, (err, rows, fields)=>{
-            if(err){
-                //console.log(err);
-                if(err.code==='ECONNRESET'){
-                    console.log(query);
-                    //renew();
-                }
-                else reject(err);
-            }
+            if(err) reject(err);
             resolve({
                 rows: rows,
                 fields: fields
             });
-            //mysql_connection.end();
         });
         
     });

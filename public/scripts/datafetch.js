@@ -1,0 +1,1 @@
+$('.nshowing').text($('.program-row .poster-card').length);
