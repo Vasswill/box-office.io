@@ -11,21 +11,20 @@ function checkAuthentication(req,res,next){
         //req.isAuthenticated() will return true if user is logged in
         next();
     } else{
-        res.redirect("/");
+        res.redirect("/guest");
     }
 }
 
-router.all('/', (req, res) => {
-    console.log(req.user);
-    if(!req.isAuthenticated()){
-        res.render('index', {
-            auth: false
-        });
-    }else{
-        res.render('index', {
-            auth: true
-        });
-    }
+router.all('/', checkAuthentication, (req, res) => {
+    res.render('index', {
+            auth: req.user.customerNo != null ? 1 : 2
+    });
+});
+
+router.all('/guest', (req,res)=>{
+    res.render('index', {
+        auth: false
+    });
 });
 
 router.get('/userdata', checkAuthentication, (req,res)=>{

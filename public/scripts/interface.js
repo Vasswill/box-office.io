@@ -14,3 +14,11 @@ $('button').click(function(){
 $('.logo').dblclick(function(){
     $('.content-box').toggleClass('special-mode');
 });
+
+if(auth){
+    $('#head-login-btn').hide();
+    $('#head-user-badge').show();
+    if(uRole==2){
+        $('#toAdmin-btn').show();
+    }
+}

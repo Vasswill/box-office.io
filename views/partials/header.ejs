@@ -1,10 +1,9 @@
-<script>
-    let auth = <%-auth%>;
-</script>
+
 
 <html>
     <head>
         <title>Project Box-office.io</title>
+        <meta http-equiv="pragma" content="no-cache" />
         <link rel="stylesheet" href="/stylesheets/main.css">
         <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,500,700,900|Montserrat:300,400,500,700|Prompt:300,300i,400,400i,500,700,800" rel="stylesheet">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
@@ -19,6 +18,10 @@
         <script src="/scripts/parallax.min.js"></script>
     </head>
     <body>
+        <script>
+            let auth = !!<%=auth%>;
+            let uRole = <%=auth%>;
+        </script>
         <div class="web-body">
             <div id='top-bar' class="container-fluid">
                 <i class="fas fa-tape logo"></i>
