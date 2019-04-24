@@ -6,16 +6,47 @@ const   express = require('express'),
         moment = require('moment');
         passport = require('./passport');
 
+function checkAuthentication(req,res,next){
+    if(req.isAuthenticated()){
+        //req.isAuthenticated() will return true if user is logged in
+        next();
+    } else{
+        res.redirect("/");
+    }
+}
+
 router.all('/', (req, res) => {
-    // mysql.connect('SELECT * FROM users WHERE username="testuser2";')
-    // .then((resp)=>{
-    //     console.log(resp);
-    // })
-    // .catch((err)=>{
-    //     console.log('error',err);
-    // });
     console.log(req.user);
-    res.render('index');
+    if(!req.isAuthenticated()){
+        res.render('index');
+    }else{
+        res.render('index', {
+            auth: true
+        });
+    }
+});
+
+router.get('/userdata', checkAuthentication, (req,res)=>{
+    console.log('/userdata<--',req.query);
+    if(Object.keys(req.query).length==0){
+        res.send(req.user);
+    }else{
+        let columns = '`'+req.query.columns.join().replace(',','`,`')+'`';
+        let table = req.user.customerNo == null ? 'staff' : 'customer';
+        let searchField = req.user.customerNo == null ? 'StaffNo' : 'CustomerNo';
+        let userNo = req.user.customerNo == null ? req.user.staffNo : req.user.customerNo;
+        mysql.connect('SELECT '+columns+' FROM `'+table+'` WHERE `'+searchField+'`='+userNo+';')
+        .then((resp)=>{
+            if(resp.rows.length <= 0){
+                //return
+                res.sendStatus(404);
+            }
+            res.send({...req.user,...resp.rows[0]});
+        })
+        .catch((err)=>{
+            console.log('error',err);
+        });
+    }
 });
 
 router.get('/admin', (req,res) => {

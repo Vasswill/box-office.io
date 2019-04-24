@@ -83,6 +83,19 @@ button > i{
     background: white;
     color: black;
 }
+.btn-black{
+    background: transparent;
+    color: black;
+    border: 1px solid black;
+    width: 70%;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+}
+.btn-black:hover{
+    background: black;
+    color: white;
+}
 .btn-green{
     background: var(--color-green-tran-1);
     color: var(--color-green);
@@ -392,4 +405,95 @@ button > i{
 .content-view, .content-form{
     margin: 10px;
     margin-bottom: 35px;
+}
+
+@keyframes placeHolderShimmer{
+    0%{
+        background-position: -468px 0
+    }
+    100%{
+        background-position: 468px 0
+    }
+}
+.fetch-placeholder{
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-name: placeHolderShimmer;
+    animation-timing-function: linear;
+    background: #f6f7f8;
+    background: linear-gradient(to right, #eeeeee 8%, #dddddd 18%, #eeeeee 33%);
+    background-size: 1000px 104px;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.fetch.userpic{
+    border: none;
+    animation: none;
+    text-indent:0;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    -webkit-animation: none;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+.fetch.userpic[src='']{
+    text-indent: -10000px;
+    border: 2px solid white;
+    animation: spin 1.5s linear infinite;
+    border-left: 0;
+    -webkit-animation: spin 1.5s linear infinite;
+}
+
+button .fetch.userpic{
+    margin: 0 7px;
+}
+
+.lds-ripple {
+    display: inline-block;
+    position: relative;
+    width: 27px;
+    height: 27px;
+}
+.lds-ripple div {
+    position: absolute;
+    border: 2px solid #fff;
+    opacity: 1;
+    border-radius: 50%;
+    animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
+.lds-ripple div:nth-child(2) {
+    animation-delay: -0.5s;
+}
+@keyframes lds-ripple {
+    0% {
+    top: 14px;
+    left: 14px;
+    width: 0;
+    height: 0;
+    opacity: 1;
+    }
+    100% {
+    top: -.5px;
+    left: -.5px;
+    width: 29px;
+    height: 29px;
+    opacity: 0;
+    }
+}
+
+.dropdown-item{
+    font-family: inherit!important;
+    display: flex!important;
+    justify-content: center!important;
+    margin-bottom: 7px!important;
+    font-size: .9rem!important;
 }
