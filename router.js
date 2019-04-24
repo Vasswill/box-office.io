@@ -14,5 +14,9 @@ router.all('/', (req, res) => {
     //         console.log(err);
     //     });
     res.render('index');
-})
+});
+
+router.get('/admin', (req,res) => {
+    res.render('admin');
+});
 module.exports = router;

@@ -11,6 +11,7 @@
     --color-lightgreen-1: #7EF36F;
     --color-lightgreen-2: rgb(105, 206, 87);
     --color-green: #70e1a1;
+    --color-darkgreen: #4b9d85;
     --color-green-tran-1: rgba(78, 196, 129, 0.2);
     --color-green-tran-2: rgba(78, 196, 129, 0.4);
 }
@@ -180,6 +181,18 @@ button > i{
     margin-bottom: 5px;
 }
 
+.head-group > .level0, .head-text.level0{
+    display: block;
+    color: white;
+    font-weight: 600;
+    font-size: 1.3rem;
+    line-height: initial;
+    border: 1px solid #ffffff38;
+    padding: 7px;
+    width: fit-content;
+    box-shadow: 0px 3px 0px 0px white;
+}
+
 .head-group > .level1{
     display: block;
     color: white;
@@ -254,10 +267,20 @@ button > i{
     color: gold;
     border: 1px dashed gold;
 }
+
 .side-bar .side-bar-icon.special:hover:enabled{
     border: 1px solid gold;
     background: gold;
     color: #674a01;
+}
+.side-bar .side-bar-icon.special.sp-green{
+    color: var(--color-green);
+    border: 1px dashed var(--color-green);
+}
+.side-bar .side-bar-icon.special.sp-green:hover:enabled{
+    border: 1px solid var(--color-green);
+    background: var(--color-green);
+    color: black;
 }
 .side-bar .side-bar-icon:hover:enabled{
     border: 1px solid white;
