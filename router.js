@@ -18,7 +18,9 @@ function checkAuthentication(req,res,next){
 router.all('/', (req, res) => {
     console.log(req.user);
     if(!req.isAuthenticated()){
-        res.render('index');
+        res.render('index', {
+            auth: false
+        });
     }else{
         res.render('index', {
             auth: true
@@ -49,7 +51,7 @@ router.get('/userdata', checkAuthentication, (req,res)=>{
     }
 });
 
-router.get('/admin', (req,res) => {
+router.get('/admin', checkAuthentication, (req,res) => {
     res.render('admin');
 });
 
@@ -61,5 +63,9 @@ router.post('/login',
     }), (req,res) => {
     console.log('login route run!', req.body);
 });
+router.get('/logout', checkAuthentication, (req,res)=>{
+    req.logout();
+    res.redirect('/')
+})
 
 module.exports = router;

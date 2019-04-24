@@ -1,3 +1,7 @@
+<script>
+    let auth = <%-auth%>;
+</script>
+
 <html>
     <head>
         <title>Project Box-office.io</title>
@@ -31,7 +35,7 @@
                         <img class="dropdown-item fetch userpic" src="" alt="" width="100px" height="100px" style='margin:auto;object-fit: cover;width: 100px;height: 100px;padding: initial;'>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="#">Profile</a>
-                        <button class="btn-black" href="#">Logout</button>
+                        <button class="btn-black" onclick="location.href='/logout'">Logout</button>
                     </div>
                 </div>
             </div>

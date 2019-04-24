@@ -431,7 +431,7 @@ button > i{
 
 .fetch.userpic{
     border: none;
-    animation: none;
+    background: none;
     text-indent:0;
     border-radius: 50%;
     -webkit-border-radius: 50%;
@@ -441,16 +441,10 @@ button > i{
     -webkit-animation: none;
 }
 
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
 .fetch.userpic[src='']{
+    background: url(/assets/images/load_placeholder.svg) no-repeat;
+    background-size: 20px;
     text-indent: -10000px;
-    border: 2px solid white;
-    animation: spin 1.5s linear infinite;
-    border-left: 0;
-    -webkit-animation: spin 1.5s linear infinite;
 }
 
 button .fetch.userpic{
@@ -488,6 +482,15 @@ button .fetch.userpic{
     height: 29px;
     opacity: 0;
     }
+}
+
+.dropdown-menu{
+    position: absolute!important;
+    will-change: transform!important;
+    border-radius: 0px!important;
+    top: 0px!important;
+    left: 0px!important;
+    transform: translate3d(-38px, 36px, 0px)!important;
 }
 
 .dropdown-item{

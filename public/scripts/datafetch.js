@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    if("<%-typeof auth%>"!=undefined) {
+    if(auth) {
         $('#head-login-btn').hide();
         $('#head-user-badge').show();
         fetchData('user',['ImageURL'], (data,err)=>{
