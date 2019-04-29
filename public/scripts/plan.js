@@ -1,4 +1,4 @@
-var Theatre = [{Name:'Add New Theatre',Branch:'NULL'}];
+var Theatre = [{Name:'Add New Theatre',Branch:'NULL'},{Name:'A1',Branch:'1'},{Name:'A2',Branch:'2'}];
 var SeatClass,Height,Width;
 var count=1
     Thcount=0
@@ -70,7 +70,8 @@ function saveTheatre(){
 }
 
 function addBranchOption(){
-    $.get('/fetchBranchData',(data)=>{
+    var payload = { table:"branch" };
+    $.post('/fetchData',payload,(data)=>{
             data.forEach((value,key)=>{
             $("#Branch").append('<option class="form-control-plaintext" value="'+value.BranchNo+'">'+value.BranchName+'</option>');
         })
@@ -84,7 +85,8 @@ function appendSeatClass(number) {
 }
 
 function getSeatClass(){
-    $.get('/fetchSeatClasshData',(data)=>{
+    var payload = { table:"seatclass" };
+    $.post('/fetchData',payload,(data)=>{
             SeatClass = data;
             appendSeatClass(1);
     });
