@@ -11,6 +11,7 @@
     --color-lightgreen-1: #7EF36F;
     --color-lightgreen-2: rgb(105, 206, 87);
     --color-green: #70e1a1;
+    --color-darkgreen: #4b9d85;
     --color-green-tran-1: rgba(78, 196, 129, 0.2);
     --color-green-tran-2: rgba(78, 196, 129, 0.4);
 }
@@ -81,6 +82,19 @@ button > i{
 .btn-white:hover{
     background: white;
     color: black;
+}
+.btn-black{
+    background: transparent;
+    color: black;
+    border: 1px solid black;
+    width: 70%;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+}
+.btn-black:hover{
+    background: black;
+    color: white;
 }
 .btn-green{
     background: var(--color-green-tran-1);
@@ -180,6 +194,18 @@ button > i{
     margin-bottom: 5px;
 }
 
+.head-group > .level0, .head-text.level0{
+    display: block;
+    color: white;
+    font-weight: 600;
+    font-size: 1.3rem;
+    line-height: initial;
+    border: 1px solid #ffffff38;
+    padding: 7px;
+    width: fit-content;
+    box-shadow: 0px 3px 0px 0px white;
+}
+
 .head-group > .level1{
     display: block;
     color: white;
@@ -254,10 +280,20 @@ button > i{
     color: gold;
     border: 1px dashed gold;
 }
+
 .side-bar .side-bar-icon.special:hover:enabled{
     border: 1px solid gold;
     background: gold;
     color: #674a01;
+}
+.side-bar .side-bar-icon.special.sp-green{
+    color: var(--color-green);
+    border: 1px dashed var(--color-green);
+}
+.side-bar .side-bar-icon.special.sp-green:hover:enabled{
+    border: 1px solid var(--color-green);
+    background: var(--color-green);
+    color: black;
 }
 .side-bar .side-bar-icon:hover:enabled{
     border: 1px solid white;
@@ -369,4 +405,98 @@ button > i{
 .content-view, .content-form{
     margin: 10px;
     margin-bottom: 35px;
+}
+
+@keyframes placeHolderShimmer{
+    0%{
+        background-position: -468px 0
+    }
+    100%{
+        background-position: 468px 0
+    }
+}
+.fetch-placeholder{
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-name: placeHolderShimmer;
+    animation-timing-function: linear;
+    background: #f6f7f8;
+    background: linear-gradient(to right, #eeeeee 8%, #dddddd 18%, #eeeeee 33%);
+    background-size: 1000px 104px;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.fetch.userpic{
+    border: none;
+    background: none;
+    text-indent:0;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    -webkit-animation: none;
+}
+
+.fetch.userpic[src='']{
+    background: url(/assets/images/load_placeholder.svg) no-repeat;
+    background-size: 20px;
+    text-indent: -10000px;
+}
+
+button .fetch.userpic{
+    margin: 0 7px;
+}
+
+.lds-ripple {
+    display: inline-block;
+    position: relative;
+    width: 27px;
+    height: 27px;
+}
+.lds-ripple div {
+    position: absolute;
+    border: 2px solid #fff;
+    opacity: 1;
+    border-radius: 50%;
+    animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
+.lds-ripple div:nth-child(2) {
+    animation-delay: -0.5s;
+}
+@keyframes lds-ripple {
+    0% {
+    top: 14px;
+    left: 14px;
+    width: 0;
+    height: 0;
+    opacity: 1;
+    }
+    100% {
+    top: -.5px;
+    left: -.5px;
+    width: 29px;
+    height: 29px;
+    opacity: 0;
+    }
+}
+
+.dropdown-menu{
+    position: absolute!important;
+    will-change: transform!important;
+    border-radius: 0px!important;
+    top: 0px!important;
+    left: 0px!important;
+    transform: translate3d(-38px, 36px, 0px)!important;
+}
+
+.dropdown-item{
+    font-family: inherit!important;
+    display: flex!important;
+    justify-content: center!important;
+    margin-bottom: 7px!important;
+    font-size: .9rem!important;
 }
