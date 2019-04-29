@@ -7,6 +7,7 @@ const mysql_connection = mysql.createConnection({
     database : 'db_boxoffice_io'
 });
 
+
 const connect = (query) => {
     return new Promise(function(resolve, reject){
         mysql_connection.query(query, (err, rows, fields)=>{
@@ -16,6 +17,7 @@ const connect = (query) => {
                 fields: fields
             });
         });
+        
     });
 }
 
