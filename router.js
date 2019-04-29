@@ -48,6 +48,8 @@ router.get('/userdata', checkAuthentication, (req,res)=>{
             console.log('error',err);
         });
     }
+});
+
 router.get('/fetchBranchData', (req,res) => {
     var sql = "SELECT * FROM `branch`";
     mysql.connect(sql)
@@ -154,6 +156,6 @@ router.post('/login',
 router.get('/logout', checkAuthentication, (req,res)=>{
     req.logout();
     res.redirect('/')
-})
+});
 
 module.exports = router;
