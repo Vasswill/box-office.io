@@ -1,12 +1,19 @@
 var Theatre = [{Name:'Add New Theatre',Branch:'NULL'}];
 var SeatClass,Height,Width;
-var count=1;
+var count=1
+    Thcount=0
+    nowTH=0;
 var renderCount = [1,1,1,1];
 $('.alert').hide();
 
 function addTable(data) {
     data.forEach((value, key) => {
-        $("#MyTableTr").append('<tr><th class="text-white" scope="col">'+value.Name+'</th></tr>');
+        var tableRowappend = '<tr id="Th'+Thcount+'" class="default-mouse" ><th onclick="editTh('+Thcount+')" class="text-white pl-3" scope="col">'+value.Name+'</th>'
+        if(Thcount>0) tableRowappend += '<th class="text-white" onclick="removeTh('+Thcount+')" scope="col">X</th>';
+        else tableRowappend += '<th onclick="editTh(0)"></th>';
+        tableRowappend += '</tr>';
+        Thcount++;
+        $("#MyTableTr").append(tableRowappend);
     });
     
 }
@@ -23,12 +30,42 @@ function planW(){
     //console.log(Width);
 }
 
+function reRenderTHTable(){
+    for(var i = Thcount-1 ; i >= 0 ; i--) {
+        $('#Th'+i).remove();
+        Thcount--;
+    }
+    addTable(Theatre);
+}
+
+function removeTh(id){
+    var THName = $('#Th'+id)[0].childNodes[0].innerHTML;
+    Theatre.splice(Theatre.findIndex((val)=>{return val.Name==THName}),1);
+    reRenderTHTable();
+}
+
+function editTh(id){
+    $('#Th'+id).addClass('bg-secondary').siblings().removeClass('bg-secondary');
+    if(id>0){
+        $('#NameTheatre').val(Theatre[id].Name);
+        $('#Branch').val(Theatre[id].Branch);
+    }
+    else $('#NameTheatre').val('');
+    nowTH=id;
+}
+
 function saveTheatre(){
     var data = {Name:$('#NameTheatre').val(), Branch:$('#Branch').val()}
     if(data.Name!=""){
         $('#NameTheatre').val('');
-        addTable([data]);
-        Theatre.push(data);
+        if(nowTH==0){
+            addTable([data]);
+            Theatre.push(data);
+        }
+        else {
+            Theatre[nowTH] = data;
+            reRenderTHTable();
+        }
     }
 }
 
@@ -55,7 +92,7 @@ function getSeatClass(){
 
 function addSeat() {
     if(count<=4){
-        $("#adj").append('<div id="SeatForm'+count+'" class="form-group row mb-0"><label for="SeatClass'+count+'" class="col-md-2 mt-2 mb-0" style="padding-left: 13px;">Seat Class '+count+'</label><div class="col-md-3 col-sm-3 col-3"><select name="SeatClass'+count+'" id="SeatClass'+count+'" onchange="clearSeat('+count+')" class="form-control-plaintext text-white"></select></div><label for="NoRow'+count+'" class="col-md-2 col-sm-3 col-3 mt-2 mb-0">No.Row</label><div class="col-md-3 col-sm-3 col-3"><button type="button" onclick="deleteSeatTH('+count+')" class="btn text-center text-white btn-white-rounded m-0 pl-2" style="width: 20px !important; min-width: 0px;" >-</button><input type="number" class="mt-2 custom-range text-white" readonly="readonly" style="text-align: center;width: 27px; border: 0px;" min="0" value="0" id="NoRow'+count+'" name="NoRow'+count+'"><button type="button" onclick="appendSeatTH('+count+')" class="btn text-center text-white btn-white-rounded m-0 pl-2" style="width: 20px !important; min-width: 0px;" >+</button></div><div></div></div>');
+        $("#adj").append('<div id="SeatForm'+count+'" class="form-group row mb-0"><label for="SeatClass'+count+'" class="col-md-2 mt-2 mb-0" style="padding-left: 13px;">Seat Class '+count+'</label><div class="col-md-3 col-sm-3 col-3"><select name="SeatClass'+count+'" id="SeatClass'+count+'" onchange="clearSeat('+count+')" class="form-control-plaintext text-white"></select></div><label for="NoRow'+count+'" class="col-md-2 col-sm-3 col-3 mt-2 mb-0">No.Row</label><div class="col-md-3 col-sm-3 col-3"><button type="button" onclick="deleteSeatTH('+count+')" class="btn text-center text-white btn-white-rounded m-0 pl-2" style="width: 20px !important; min-width: 0px;" >-</button><input type="number" class="mt-2 custom-range text-white" readonly="readonly" style="text-align: center;width: 27px; border: 0px;" min="0" value="0" id="NoRow'+count+'" name="NoRow'+count+'"><button type="button" onclick="appendSeatTH('+count+')" class="btn text-center text-white btn-white-rounded m-0 pl-2" style="width: 24px !important; min-width: 0px;" >+</button></div><div></div></div>');
         if(count>1)appendSeatClass(count);
         count++;
     }
@@ -81,13 +118,13 @@ function changeValR(op,num) {
 function appendSeatTH(num){
     var use=0,min=9999;
     if(SeatClass != null){
-        SeatClass.forEach((value,key)=>{
-            console.log(value.Height+"*"+(renderCount[key]-1));
-            use += (value.Height*(renderCount[key]-1));
-            if(min>value.Height) min=value.Height;
-        })
-        console.log(use)
-        if(Height-use>=min){
+        for(var i = 1; i < count; i++){
+            var seatHeight = SeatClass.find((val)=>{ return val.ClassName==$('#SeatClass'+i).val()}).Height;
+            //console.log(temp+"*"+(renderCount[i-1]-1));
+            use += (seatHeight*(renderCount[i-1]-1));
+        }
+
+        if(Height-use>=SeatClass.find((val)=>{ return val.ClassName==$('#SeatClass'+num).val()}).Height){
             var seat = '<div id="render'+num+'R'+renderCount[num-1]+'" class="container-fluid pl-0 pr-0 mt-3 mb-3 d-flex justify-content-between" >'
             for (let i = 0; i < Width/SeatClass.find((val)=>{ return val.ClassName==$('#SeatClass'+num).val()}).Width; i++) {
                 seat += '<span class="dot ml-1 mr-1"></span>';
@@ -100,6 +137,10 @@ function appendSeatTH(num){
         }
     }
 }
+
+$(document).on("keypress", "form", function(event) { 
+    return event.keyCode != 13;
+});
 
 function pageRedirect() {
     window.location.href = "http://localhost:8080/plan";
