@@ -25,7 +25,7 @@ function showTheater(data) {
     var payload = { table:"theater" };
     $.post('/fetchData',payload,(data)=>{
         data.forEach((value,key)=>{
-            if(branch.temp==value.BranchNo)
+            // if(branch.temp==value.BranchNo)
             $("#theater").append('<tr class="default-mouse"><th class="text-white pl-3 branchTable" scope="col">'+value.TheaterCode+'</th></tr>');
         });
         console.log(data)

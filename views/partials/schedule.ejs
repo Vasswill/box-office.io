@@ -1,19 +1,78 @@
 <%- include('header', {mode: 'admin'});  %>
 <thead>Movie</thead>
 <form action="/schedule" method="post">
-    <div class="col-sm-3" >
-        <table class="table table-sm table-hover table-dark" id="Movie">
-        </table>
+    <div class="row">
+        <div class="col-sm-3" >
+            <table class="table table-sm table-hover table-dark" id="Movie">
+            </table>
+        </div>
+        <div class="col-sm-3" >
+            <table class="table table-sm table-hover table-dark" id="Branch">
+            </table>
+        </div>
+        <div class="col-sm-3" >
+            <table class="table table-sm table-hover table-dark" id="theater">
+            </table>
+        </div>
     </div>
-    <div class="col-sm-3" >
-        <table class="table table-sm table-hover table-dark" id="Branch">
-        </table>
+    <div class="row">
+        <div class="col-sm-3">
+            <label >Date</label>
+            <input name="Date" id="Date" class="form-control-plaintext text-white" type="date"></input>
+            <label >Audio</label>
+            <select name="Audio" class="form-control-plaintext text-white ">
+                <option value="1001">A-1001</option>
+                <option value="1002">A-1002</option>
+                <option value="1003">B-1001</option>
+                <option value="1004">B-1002</option> 
+            </select>
+        </div>
+        <div class="col-sm-3">
+            <label >Start Time</label>
+            <select name="StartTime" class="form-control-plaintext text-white ">
+                <option value="1001">A-1001</option>
+                <option value="1002">A-1002</option>
+                <option value="1003">B-1001</option>
+                <option value="1004">B-1002</option> 
+            </select>
+            <label >End Time</label>
+            <select name="EndTime" class="form-control-plaintext text-white ">
+                <option value="1001">A-1001</option>
+                <option value="1002">A-1002</option>
+                <option value="1003">B-1001</option>
+                <option value="1004">B-1002</option> 
+            </select>
+            <label >Subtitle</label>
+            <select name="SubTitle" class="form-control-plaintext text-white ">
+                <option value="1001">A-1001</option>
+                <option value="1002">A-1002</option>
+                <option value="1003">B-1001</option>
+                <option value="1004">B-1002</option> 
+            </select>
+        </div>
+        <div class="col-sm-3">
+            <label >Ad Duration</label>
+            <select name="AdDuration" class="form-control-plaintext text-white ">
+                <option value="1001">A-1001</option>
+                <option value="1002">A-1002</option>
+                <option value="1003">B-1001</option>
+                <option value="1004">B-1002</option> 
+            </select>
+            <label >(Movie Duration: 2Hr 30Min)</label>
+            <label >Strescopic</label>
+            <select name="Strescopic" class="form-control-plaintext text-white ">
+                <option value="1001">A-1001</option>
+                <option value="1002">A-1002</option>
+                <option value="1003">B-1001</option>
+                <option value="1004">B-1002</option> 
+            </select>
+        </div>
     </div>
-    <div class="col-sm-3" >
-        <table class="table table-sm table-hover table-dark" id="theater">
-        </table>
+    <div class="mx-auto mt-4 text-center">
+        <button type="button" class="btn btn-outline-light btn-white" onclick="saveTheatre()">Summit</button> 
     </div>
-    
+   
+
 
 
 
