@@ -1,0 +1,50 @@
+<%- include partials/head %>
+        <div class="container-form">
+            <span class='head-text level1'>branch</span>
+            <div class="row">
+                <div class="col-sm-3" ></div>
+                <div class="col-sm-6" >
+                    <form action="branch.php" method="post">
+                        <span class='head-text level3'>name</span><br><input type="text" name="Name"><br>
+                            <span class='head-text level3'>Address</span><br><input type="text" name="Address"><br>
+                        <span class='head-text level3'>Province</span><br>
+                                    <select name="Province" >
+                                            <option value="kmutt" >kmutt</option>
+                                            <option value="chitlom">chitlom</option>
+                                            <option value="siam">siam</option>
+                                            <option value="victory-monument">victory-monument</option>
+                                            <option value="JJpark">JJpark</option>
+                                    </select> <br>
+                                    <!--<input type="text" name="Province">-->
+                        <span class='head-text level3'>ZIP Code</span><br><input type="text" name="Zipcode"><br>
+                       <span class='head-text level3'>Phone Number</span><br><input type="text" name="Phone"><br>
+                        <span class='head-text level3'>Manager</span><br>
+                                     <select name="Manager">
+                                            <!-- <option value="1001">A-1001</option>
+                                            <option value="1002">A-1002</option>
+                                            <option value="1003">B-1001</option>
+                                            <option value="1004">B-1002</option> -->
+                                            <?php
+                                                $sql = "select * from staff";
+                                                $dbquery = mysql_query($sql);
+                                                while($rw = mysql_fetch_array($dbquery)){?>
+                                                <option value="<?=$rw['staffNo']?>"></option>
+                                                    <? }?>
+                                    </select> <br>
+                                    <!--<input type="text" name="Manager">-->
+                                <br><br>
+                        <input type="submit" name="create" value="create">
+                        <input type="reset" name="reject" value="reject">
+                    </form>
+                </div>
+                <div class="col-sm-3"></div>
+              </div>
+        </div>
+
+<%- include partials/foot %>  
+
+<script>
+    document.body.addEventListener('touchmove', function(event) {
+        event.preventDefault();
+    });
+</script>
