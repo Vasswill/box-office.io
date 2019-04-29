@@ -67,6 +67,10 @@ router.get('/seat', (req,res) => {
 router.get('/branch', (req,res) => {
     res.render('partials/branch');
 });
+
+router.get('/schedule', (req,res) => {
+    res.render('partials/schedule');
+});
 router.post('/seatAdd', (req,res) => {
     var data = req.body;
     var sql = "INSERT INTO `seatclass` (`ClassName`, `Price`, `Couple`, `FreeFood`, `Width`, `Height`) VALUES ('"+
