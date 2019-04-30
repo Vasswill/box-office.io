@@ -1,6 +1,7 @@
 <%- include('header', {mode: 'admin'});  %>
-<thead>Movie</thead>
+
 <form action="/schedule" method="post">
+    <h3 class='head-text'>Plan</h3>
     <div class="row">
         <div class="col-sm-3" >
             <table class="table table-sm table-hover table-dark" id="Movie">
@@ -20,51 +21,45 @@
             <label >Date</label>
             <input name="Date" id="Date" class="form-control-plaintext text-white" type="date"></input>
             <label >Audio</label>
-            <select name="Audio" class="form-control-plaintext text-white ">
-                <option value="1001">A-1001</option>
-                <option value="1002">A-1002</option>
-                <option value="1003">B-1001</option>
-                <option value="1004">B-1002</option> 
+            <select name="Audio" class="form-control-plaintext text-white">
+                <option value="Thai">Thai</option>
+                <option value="English">English</option>
             </select>
         </div>
         <div class="col-sm-3">
             <label >Start Time</label>
-            <select name="StartTime" class="form-control-plaintext text-white ">
+            <!-- <select name="StartTime" class="form-control-plaintext text-white ">
                 <option value="1001">A-1001</option>
                 <option value="1002">A-1002</option>
                 <option value="1003">B-1001</option>
                 <option value="1004">B-1002</option> 
-            </select>
+            </select> -->
+            <input type="text" id="datetime24"class="form-control-plaintext text-white " data-format="HH:mm" data-template="HH : mm" name="StartTime" value="10:30">
             <label >End Time</label>
-            <select name="EndTime" class="form-control-plaintext text-white ">
+            <!-- <select name="EndTime" class="form-control-plaintext text-white ">
                 <option value="1001">A-1001</option>
                 <option value="1002">A-1002</option>
                 <option value="1003">B-1001</option>
                 <option value="1004">B-1002</option> 
-            </select>
+            </select> -->
+            <input type="text" id="datetime24"class="form-control-plaintext text-white " data-format="HH:mm" data-template="HH : mm" name="EndTime" value="20:30">
+               
             <label >Subtitle</label>
             <select name="SubTitle" class="form-control-plaintext text-white ">
-                <option value="1001">A-1001</option>
-                <option value="1002">A-1002</option>
-                <option value="1003">B-1001</option>
-                <option value="1004">B-1002</option> 
+                <option value="Thai">Thai</option>
+                <option value="English">English</option>
             </select>
         </div>
         <div class="col-sm-3">
             <label >Ad Duration</label>
-            <select name="AdDuration" class="form-control-plaintext text-white ">
-                <option value="1001">A-1001</option>
-                <option value="1002">A-1002</option>
-                <option value="1003">B-1001</option>
-                <option value="1004">B-1002</option> 
-            </select>
+            <input type="text" autocomplete="off" class="form-control-plaintext text-white pb-0 text-center" id="AdDuration"  name="AdDuration">
             <label >(Movie Duration: 2Hr 30Min)</label>
             <label >Strescopic</label>
             <select name="Strescopic" class="form-control-plaintext text-white ">
-                <option value="1001">A-1001</option>
-                <option value="1002">A-1002</option>
-                <option value="1003">B-1001</option>
-                <option value="1004">B-1002</option> 
+                <option value="2.1">2.1</option>
+                <option value="5.1">5.1</option>
+                <option value="7.1">7.1</option>
+                <option value="9.1">9.1</option> 
             </select>
         </div>
     </div>

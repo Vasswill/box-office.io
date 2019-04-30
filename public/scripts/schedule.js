@@ -34,6 +34,9 @@ function showTheater(cl,data) {
     
 }
 
+function datetime(){
+    $('#datetime24').combodate();  
+}
 
 function movie(){
     console.log(this.innerHTML);
