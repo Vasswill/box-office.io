@@ -1,22 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Box-office.io</title>
-        <link rel="stylesheet" href="/stylesheets/main.css">
-        <link rel="stylesheet" href="/stylesheets/form.css">
-        <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,500,700,900|Biryani:300,400,600,700,900|Prompt:300,300i,400,400i,500,700,800" rel="stylesheet">
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-        
-        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-</head>
-<body>
+<%- include('head', {mode: 'admin'});  %>
+
     <div class="alert alert-warning alert-dismissible fade show" role="alert">
         <strong>Warning!</strong> You should check input in on some of those fields below.
         <button type="button" class="close " onclick="$('.alert').hide()" >
@@ -79,13 +62,13 @@
                         </div>
                     </div>
                     <div class="mx-auto mt-4 text-center">
-                        <button type="button" class="btn btn-white-rounded" onclick="saveTheatre()">Save Theatre</button>
+                        <button type="button" class="btn btn-outline-light btn-white" onclick="saveTheatre()">Save Theatre</button>
                     </div>
 
                 </div>
                 <div class="container col-xl-9 col-lg-8 col-md-7 col-sm-7 col-6">
                     <div class="mx-auto mt-4 text-center">
-                        <button type="button" style="width:70%" class="btn btn-white-rounded">SCREEN</button>
+                        <button type="button" style="width:70%" class="btn btn-white-rounded default-mouse">SCREEN</button>
                         <div id="render" class="container mt-3 mb-3" >
                             <div id="render1"></div>
                             <div id="render2"></div>
@@ -93,7 +76,7 @@
                             <div id="render4"></div>
                         </div>
                         <div class="container-fluid">
-                            <p><span id="showW">Plan Width 0 m.</span><span>&emsp;x&emsp;</span>
+                            <p class="default-mouse"><span id="showW">Plan Width 0 m.</span><span>&emsp;x&emsp;</span>
                             <span id="showH">Plan Height 0 m.</span></p>
                         </div>
                         <div class="container">
@@ -102,10 +85,10 @@
                                     <h3 class="text-left head-text">Seat Class</h3>
                                 </div>
                                 <div class="btn-group mr-2" role="group" aria-label="Second group">
-                                    <div class="btn text-white"><i class="material-icons" onclick="addSeat()">add_circle</i></div>
+                                    <div class="btn text-white" ><i class="material-icons pointer" onclick="addSeat()">add_circle</i></div>
                                 </div>
                                 <div class="btn-group" role="group" aria-label="Third group">
-                                        <div class="btn text-white"><i class="material-icons" onclick="removeSeat()">remove_circle</i></div>
+                                        <div class="btn text-white"><i class="material-icons pointer" onclick="removeSeat()">remove_circle</i></div>
                                 </div>
                             </div>
                         </div>
@@ -129,13 +112,12 @@
             </div>
             <div class="row">
                 <div class="mx-auto mt-3 text-center">
-                    <button type="button" class="btn btn-white-rounded mr-5" onclick="sentForm()" ><i class="material-icons">add_circle</i><span id="Create">  Save Plan</span></button>
-                    <a href="/" class="btn btn-white-rounded" role="button">Reject</a>  
+                    <button type="button" class="btn btn-white mr-5 btn-outline-light" onclick="sentForm()" ><i class="material-icons">add_circle</i><span id="Create">  Save Plan</span></button>
+                    <button class="btn btn-white btn-outline-light" role="button">Reject</button>  
                 </div>
             </div>
         </div>
     </form>
     <script src="js/plan.js"></script>
     
-</body>
-</html>
+<%- include foot %>  

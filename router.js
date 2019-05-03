@@ -68,6 +68,10 @@ router.post('/planAdd', (req,res)=>{
     
 });
 
+router.get('/Sshift', (req,res) => {
+    res.render('partials/Sshift');
+});
+
 router.post('/theatreAdd', (req,res)=>{
     var data = req.body;
     var sql = "INSERT INTO `theater`(`TheaterCode`, `BranchNo`, `PlanName`) VALUES ";
@@ -111,3 +115,5 @@ router.post('/login',
 });
 
 module.exports = router;
+
+

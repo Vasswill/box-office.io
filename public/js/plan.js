@@ -55,7 +55,7 @@ function getSeatClass(){
 
 function addSeat() {
     if(count<=4){
-        $("#adj").append('<div id="SeatForm'+count+'" class="form-group row mb-0"><label for="SeatClass'+count+'" class="col-md-2 mt-2 mb-0" style="padding-left: 13px;">Seat Class '+count+'</label><div class="col-md-3 col-sm-3 col-3"><select name="SeatClass'+count+'" id="SeatClass'+count+'" onchange="clearSeat('+count+')" class="form-control-plaintext text-white"></select></div><label for="NoRow'+count+'" class="col-md-2 col-sm-3 col-3 mt-2 mb-0">No.Row</label><div class="col-md-3 col-sm-3 col-3"><button type="button" onclick="deleteSeatTH('+count+')" class="btn text-center text-white btn-white-rounded m-0 pl-2" style="width: 20px !important; min-width: 0px;" >-</button><input type="number" class="mt-2 custom-range text-white" readonly="readonly" style="text-align: center;width: 27px; border: 0px;" min="0" value="0" id="NoRow'+count+'" name="NoRow'+count+'"><button type="button" onclick="appendSeatTH('+count+')" class="btn text-center text-white btn-white-rounded m-0 pl-2" style="width: 20px !important; min-width: 0px;" >+</button></div><div></div></div>');
+        $("#adj").append('<div id="SeatForm'+count+'" class="form-group row mb-0"><label for="SeatClass'+count+'" class="col-md-2 mt-2 mb-0" style="padding-left: 13px;">Seat Class '+count+'</label><div class="col-md-3 col-sm-3 col-3"><select name="SeatClass'+count+'" id="SeatClass'+count+'" onchange="clearSeat('+count+')" class="form-control-plaintext text-white"></select></div><label for="NoRow'+count+'" class="col-md-2 col-sm-3 col-3 mt-2 mb-0">No.Row</label><div class="col-md-3 col-sm-3 col-3"><button type="button" onclick="deleteSeatTH('+count+')" class="btn text-center text-white btn-white-rounded m-0 pl-2" style="width: 20px !important; min-width: 0px;" >-</button><input type="number" class="mt-2 custom-range text-white" readonly="readonly" style="text-align: center;width: 27px; border: 0px;" min="0" value="0" id="NoRow'+count+'" name="NoRow'+count+'"><button type="button" onclick="appendSeatTH('+count+')" class="btn text-center text-white btn-white-rounded m-0 pl-2" style="width: 24px !important; min-width: 0px;" >+</button></div><div></div></div>');
         if(count>1)appendSeatClass(count);
         count++;
     }
@@ -81,11 +81,19 @@ function changeValR(op,num) {
 function appendSeatTH(num){
     var use=0,min=9999;
     if(SeatClass != null){
-        SeatClass.forEach((value,key)=>{
+
+        for(var i = 1; i < count; i++){
+            var temp = SeatClass.find((val)=>{ return val.ClassName==$('#SeatClass'+i).val()}).Height;
+            //console.log(temp+"*"+(renderCount[i-1]-1));
+            use += (temp*(renderCount[i-1]-1));
+            if(min>temp) min=temp;
+        }
+
+        /*SeatClass.forEach((value,key)=>{
             console.log(value.Height+"*"+(renderCount[key]-1));
             use += (value.Height*(renderCount[key]-1));
             if(min>value.Height) min=value.Height;
-        })
+        })*/
         console.log(use)
         if(Height-use>=min){
             var seat = '<div id="render'+num+'R'+renderCount[num-1]+'" class="container-fluid pl-0 pr-0 mt-3 mb-3 d-flex justify-content-between" >'
