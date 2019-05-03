@@ -6,6 +6,15 @@ const   express = require('express'),
         moment = require('moment');
         passport = require('./passport');
 
+router.post('/fetchData',(req,res)=>{
+    console.log(req.body);
+    var sql = "SElECT * FROM `"+req.body.table+"`";
+    mysql.connect(sql)
+        .then((resp)=>{
+            res.send(resp.rows);
+        });
+});
+
 router.get('/fetchBranchData', (req,res) => {
     var sql = "SELECT * FROM `branch`";
     mysql.connect(sql)
@@ -66,6 +75,18 @@ router.post('/planAdd', (req,res)=>{
             
        });
     
+});
+
+router.post('/Sshift', (req,res) => {
+    var data = req.body;
+    var sql = "INSERT INTO `shift` (`Day`, `StartTime`, `EndTime`) VALUES ('"+
+                data.Date+"','"+ data.starttime+"','"+data.endtime+"')";
+    mysql.connect(sql)
+        .then((resp)=>{
+            console.log(resp);
+            res.redirect('/Sshift');
+        });
+    console.log(sql)
 });
 
 router.get('/Sshift', (req,res) => {
