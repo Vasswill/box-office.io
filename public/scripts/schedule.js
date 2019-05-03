@@ -1,5 +1,6 @@
 var movie
 var branchName
+var theater
 
 function showmovie(data) {
     var payload = { table:"movie" };
@@ -30,7 +31,7 @@ function showTheater(cl,data) {
     $.post('/fetchData',payload,(data)=>{
         data.forEach((value,key)=>{
             if(cl==value.BranchNo)
-            $("#theater").append('<tr class="default-mouse clickTable"><th class="text-white branchTable" scope="col">'+value.TheaterCode+'</th></tr>');
+            $("#theater").append('<tr class="default-mouse clickTable"><th class="text-white theaterTable" scope="col">'+value.TheaterCode+'</th></tr>');
         });
         console.log(data)
     });
@@ -52,12 +53,17 @@ function branch(){
     showTheater(branchName,);
 
 }
+function theater(){
+    console.log(this.innerHTML);
+    theater = this.innerHTML;
+
+}
 
 showmovie();
 
 $(document).on('click',".movieTable",movie);
 $(document).on('click',".branchTable",branch);
-
+$(document).on('click',".theaterTable",theater);
 $(document).on('click',".clickTable",function(){
     $(this).addClass('bg-secondary').siblings().removeClass('bg-secondary');
 })
