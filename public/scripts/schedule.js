@@ -1,13 +1,14 @@
 var movie
 var branchName
 var theater
+var temp
 
 function showmovie(data) {
     var payload = { table:"movie" };
     $.post('/fetchData',payload,(data)=>{
         data.forEach((value,key)=>{
             
-            $("#Movie").append('<tr class="default-mouse clickTable"><th class="text-white movieTable" scope="col"value="'+value.MovieNo+'">'+value.MovieName+'</th></tr>');
+            $("#Movie").append('<tr class="default-mouse clickTable"><th class="text-white movieTable" scope="col"value="'+value.MovieNo+'">'+value.MovieNo+value.MovieName+'</th></tr>');
         });
         console.log(data)
     });
@@ -44,18 +45,22 @@ function datetime(){
 
 function movie(){
     console.log(this.innerHTML);
-    movie = this.innerHTML;
+    temp = this.innerHTML;
+    movie = temp.replace(/\D/g, "");
+    console.log(movie)
     showbranch();
 }
 function branch(){
     console.log(this.innerHTML);
     branchName = this.innerHTML;
+    console.log(branchName)
     showTheater(branchName,);
 
 }
 function theater(){
     console.log(this.innerHTML);
     theater = this.innerHTML;
+    console.log(theater)
 
 }
 

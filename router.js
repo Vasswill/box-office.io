@@ -208,17 +208,17 @@ router.post('/branch', (req,res) => {
     console.log(sql)
 });
 
-// router.post('/schedule', (req,res) => {
-    // var data = req.body;
-    // var sql = "INSERT INTO `schedule` (`MovieNo`, `TheatherCode`, `Date`, `Time`,`Audio`,`Dimension`,`Subtitle`) VALUES ('"+
-                // data.movie+"','"+data.theater+"','"+data.Date+"','"+data.StartTime+"','"+data.Audio+"','"+data.Subtitle+"','"+data.AdDuration+"')";
-    // console.log(sql)
-    // mysql.connect(sql)
-    //     .then((resp)=>{
-    //         console.log(resp);
-    //         res.redirect('/schedule');
-    //     });
-    // console.log(sql)
-// });
+router.post('/addSchedule', (req,res) => {
+    var data = req.body;
+    var sql = "INSERT INTO `schedule` (`MovieNo`, `TheatherCode`, `Date`, `Time`,`Audio`,`Dimension`,`Subtitle`) VALUES ('"+
+    data.movie+"','"+data.theater+"','"+data.Date+"','"+data.StartTime+"','"+data.Audio+"','"+data.AdDuration+"','"+data.SubTitle+"')";
+    console.log(sql)
+    mysql.connect(sql)
+        .then((resp)=>{
+            console.log(resp);
+            res.redirect('/addSchedule');
+        });
+    console.log(sql)
+});
 
 module.exports = router;
