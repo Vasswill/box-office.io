@@ -83,7 +83,7 @@ router.get('/schedule', (req,res)=>{
     let status = req.query.status == '' ? undefined:req.query.status;
     let movieId = req.query.movieId == '' ? undefined:req.query.movieId;
     let query = 'SELECT s.*,t.BranchNo,t.PlanName, b.BranchName, b.BranchAddress FROM `schedule` s '
-                    + 'JOIN (SELECT * FROM theater) AS t ON s.TheatherCode = t.TheaterCode '
+                    + 'JOIN (SELECT * FROM theatre) AS t ON s.TheatreCode = t.TheatreCode '
                     + 'JOIN (SELECT * FROM branch) AS b ON t.BranchNo = b.BranchNo '
                     + 'WHERE `MovieNo`='+movieId;
     mysql.connect(query)
