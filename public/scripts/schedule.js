@@ -7,7 +7,7 @@ function showmovie(data) {
     $.post('/fetchData',payload,(data)=>{
         data.forEach((value,key)=>{
             
-            $("#Movie").append('<tr class="default-mouse clickTable"><th class="text-white movieTable" scope="col">'+value.MovieName+'</th></tr>');
+            $("#Movie").append('<tr class="default-mouse clickTable"><th class="text-white movieTable" scope="col"value="'+value.MovieNo+'">'+value.MovieName+'</th></tr>');
         });
         console.log(data)
     });
