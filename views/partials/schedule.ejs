@@ -1,6 +1,6 @@
 <%- include('header', {mode: 'admin'});  %>
 
-<form action="/schedule" method="post">
+<form action="/schedule" method="post"> 
     <h3 class='head-text'>Plan</h3>
     <div class="row">
         <div class="col-sm-3" >
@@ -28,20 +28,20 @@
         </div>
         <div class="col-sm-3">
             <label >Start Time</label>
-            <!-- <select name="StartTime" class="form-control-plaintext text-white ">
+             <select name="StartTime" class="form-control-plaintext text-white ">
                 <option value="1001">A-1001</option>
                 <option value="1002">A-1002</option>
                 <option value="1003">B-1001</option>
                 <option value="1004">B-1002</option> 
-            </select> -->
+            </select> 
             <input type="text" id="datetime24"class="form-control-plaintext text-white " data-format="HH:mm" data-template="HH : mm" name="StartTime" value="10:30">
             <label >End Time</label>
-            <!-- <select name="EndTime" class="form-control-plaintext text-white ">
+            <select name="EndTime" class="form-control-plaintext text-white ">
                 <option value="1001">A-1001</option>
                 <option value="1002">A-1002</option>
                 <option value="1003">B-1001</option>
                 <option value="1004">B-1002</option> 
-            </select> -->
+            </select> 
             <input type="text" id="datetime24"class="form-control-plaintext text-white " data-format="HH:mm" data-template="HH : mm" name="EndTime" value="20:30">
                
             <label >Subtitle</label>
@@ -66,14 +66,14 @@
     <div class="mx-auto mt-4 text-center">
         <button type="button" class="btn btn-outline-light btn-white">Summit</button> 
     </div>
-   
+    
 
 
 
 
 
 
-</form>
-<script src="scripts/schedule.js"></script>
+ </form> 
+ <script src="scripts/schedule.js"></script>
     
 <%- include foot %>  

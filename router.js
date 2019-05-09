@@ -57,6 +57,8 @@ router.get('/movies', (req,res)=>{
     if(typeof req.query.columns != 'undefined'){
         columns = req.query.columns.length > 0 ? '`'+req.query.columns.join().replace(/,/g,'`,`')+'`':undefined;
     }
+    console.log(movieId)
+    console.log(movieId!=undefined)
     let query = 'SELECT'+ (columns?columns:'*') 
                     + 'FROM `movie`' 
                     + (status||movieId ? 'WHERE':'') 
@@ -115,11 +117,15 @@ router.get('/seat', (req,res) => {
 });
 
 router.get('/branch', (req,res) => {
-    res.render('partials/branch');
+    res.render('partials/branch', {
+        auth: false
+    });
 });
 
-router.get('/schedule', (req,res) => {
-    res.render('partials/schedule');
+router.get('/Sschedule', (req,res) => {
+    res.render('partials/schedule', {
+        auth: false
+    });
 });
 router.post('/seatAdd', (req,res) => {
     var data = req.body;
@@ -214,4 +220,5 @@ router.post('/branch', (req,res) => {
     //     });
     // console.log(sql)
 // });
+
 module.exports = router;
