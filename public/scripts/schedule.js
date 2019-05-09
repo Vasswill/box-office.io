@@ -26,12 +26,12 @@ function showbranch(data) {
 }
 
 function showTheater(cl,data) {
-    var payload = { table:"theater" };
+    var payload = { table:"theatre" };
     console.log(branch.temp)
     $.post('/fetchData',payload,(data)=>{
         data.forEach((value,key)=>{
             if(cl==value.BranchNo)
-            $("#theater").append('<tr class="default-mouse clickTable"><th class="text-white theaterTable" scope="col">'+value.TheaterCode+'</th></tr>');
+            $("#theater").append('<tr class="default-mouse clickTable"><th class="text-white theaterTable" scope="col">'+value.TheatreCode+'</th></tr>');
         });
         console.log(data)
     });
