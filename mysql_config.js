@@ -8,9 +8,9 @@ const mysql_connection = mysql.createConnection({
 });
 
 
-const connect = (query) => {
+const connect = (query, dataArray = null) => {
     return new Promise(function(resolve, reject){
-        mysql_connection.query(query, (err, rows, fields)=>{
+        mysql_connection.query(query,[dataArray], (err, rows, fields)=>{
             if(err) reject(err);
             resolve({
                 rows: rows,

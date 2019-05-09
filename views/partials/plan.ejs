@@ -1,7 +1,13 @@
 <%- include('head', {mode: 'admin'});  %>
 
-    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <div id="plan-warning" class="alert alert-warning alert-dismissible fade show" style="display: none;" role="alert">
         <strong>Warning!</strong> You should check input in on some of those fields below.
+        <button type="button" class="close " onclick="$('.alert').hide()" >
+                <i class="material-icons" >remove_circle</i>
+        </button>
+    </div>
+    <div id="plan-success" class="alert alert-success alert-dismissible fade show small" style="display:none" role="alert">
+        <strong>Save!</strong> You Plan is save successfully.
         <button type="button" class="close " onclick="$('.alert').hide()" >
                 <i class="material-icons" >remove_circle</i>
         </button>
@@ -46,6 +52,18 @@
                         <tbody>
                         </tbody>
                     </table>
+                    <div id="TH-alert" class="alert alert-warning alert-dismissible fade show small" style="display:none" role="alert">
+                        <strong>Warning!</strong> You should check input in on some of those fields below.
+                        <button type="button" class="close " onclick="$('.alert').hide()" >
+                                <i class="material-icons" >remove_circle</i>
+                        </button>
+                    </div>
+                    <div id="TH-success" class="alert alert-success alert-dismissible fade show small" style="display:none" role="alert">
+                        <strong>Save!</strong> You Theatre is save successfully.
+                        <button type="button" class="close " onclick="$('.alert').hide()" >
+                                <i class="material-icons" >remove_circle</i>
+                        </button>
+                    </div>
                     <div class="form-group row mb-3">
                         <label for="NameTheatre"  class="col-md-2 col-sm-2 col-3 mt-2 mb-0">Name</label>
                         <div class="col-md-10 col-sm-10 col-9">
@@ -109,7 +127,7 @@
             </div>
             <div class="row">
                 <div class="mx-auto mt-3 text-center">
-                    <button type="button" class="btn btn-white mr-5 btn-outline-light" onclick="sentForm()" ><i class="material-icons">add_circle</i><span id="Create">  Save Plan</span></button>
+                    <button type="button" class="btn btn-white mr-5 btn-outline-light" onclick="sentPlanForm()" ><i class="material-icons">add_circle</i><span id="Create">  Save Plan</span></button>
                     <button class="btn btn-white btn-outline-light" role="button">Reject</button>  
                 </div>
             </div>

@@ -1,10 +1,12 @@
-var Theatre = [{Name:'Add New Theatre',Branch:'NULL'}];
-var SeatClass,Height,Width;
+//var Theatre = [{Name:'Add New Theatre',Branch:'NULL',Detail:{Type:'Create',Old:''}},{Name:'TH01',Branch:'1',Detail:{Type:'Load',Old:''}},{Name:'TH02',Branch:'2',Detail:{Type:'Load',Old:''}},{Name:'TH03',Branch:'3',Detail:{Type:'Load',Old:''}},{Name:'TH04',Branch:'4',Detail:{Type:'Load',Old:''}}];
+var Theatre = [{Name:'Add New Theatre',Branch:'NULL',Detail:{Type:'Create',Old:''}}];
+var SeatClass,Height=0,Width=0;
 var count=1
     Thcount=0
     nowTH=0;
 var renderCount = [1,1,1,1];
-$('.alert').hide();
+
+//-------------------------------------Theatre Function--------------------------------------------
 
 function addTable(data) {
     data.forEach((value, key) => {
@@ -13,24 +15,13 @@ function addTable(data) {
         else tableRowappend += '<th onclick="editTh(0)"></th>';
         tableRowappend += '</tr>';
         Thcount++;
-        $("#MyTableTr").append(tableRowappend);
+        if(value.Detail.Type!='Delete')$("#MyTableTr").append(tableRowappend);
     });
-    
-}
-
-function planH(){
-    Height = document.getElementById("Height").value;
-    $('#showH')[0].childNodes[0].data = 'Plan Height '+Height+' m.';
-    //console.log(Height);
-}
-
-function planW(){
-    Width = document.getElementById("Width").value;
-    $('#showW')[0].childNodes[0].data = 'Plan Width '+Width+' m.';
-    //console.log(Width);
+    $('#Th'+nowTH).addClass('bg-secondary').siblings().removeClass('bg-secondary');
 }
 
 function reRenderTHTable(){
+    $('.alert').hide()
     for(var i = Thcount-1 ; i >= 0 ; i--) {
         $('#Th'+i).remove();
         Thcount--;
@@ -40,8 +31,15 @@ function reRenderTHTable(){
 
 function removeTh(id){
     var THName = $('#Th'+id)[0].childNodes[0].innerHTML;
-    Theatre.splice(Theatre.findIndex((val)=>{return val.Name==THName}),1);
+    switch(Theatre[id].Detail.Type){
+        case 'Create' : Theatre.splice(Theatre.findIndex((val)=>{return val.Name==THName}),1); break;
+        case 'Load' : Theatre[id].Detail = {Type: 'Delete',Old: Theatre[id].Name}; break;
+        case 'Update' : Theatre[id].Detail.Type = 'Delete'; break;
+    }
+    $('#NameTheatre').val('');
+    $('#Branch').val('');
     reRenderTHTable();
+    nowTH = 0;
 }
 
 function editTh(id){
@@ -55,26 +53,53 @@ function editTh(id){
 }
 
 function saveTheatre(){
-    var data = {Name:$('#NameTheatre').val(), Branch:$('#Branch').val()}
-    if(data.Name!=""){
+    var data = {Name:$('#NameTheatre').val(), Branch:$('#Branch').val(),Detail:{Type:'Create',Old:''}}
+    if(data.Name!='' && data.Branch){
         $('#NameTheatre').val('');
         if(nowTH==0){
             addTable([data]);
             Theatre.push(data);
         }
         else {
+            switch (Theatre[nowTH].Detail.Type){
+                case 'Load': data.Detail = {Type:'Update',Old:Theatre[nowTH].Name}; break;
+                case 'Update' : data.Detail = Theatre[nowTH].Detail; break;
+                default : break;
+            }
             Theatre[nowTH] = data;
             reRenderTHTable();
         }
+        $('#TH-success').fadeTo(2000, 500).slideUp(500, function(){
+            $(this).hide(); 
+        });
     }
+    else $('#TH-alert').fadeTo(2000, 500).slideUp(500, function(){
+        $(this).hide(); 
+    });
 }
 
 function addBranchOption(){
-    $.get('/fetchBranchData',(data)=>{
+    var payload = { table : "branch" };
+    $.post('/fetchData',payload,(data)=>{
             data.forEach((value,key)=>{
             $("#Branch").append('<option class="form-control-plaintext" value="'+value.BranchNo+'">'+value.BranchName+'</option>');
         })
     });
+}
+
+//-------------------------------------Plan Function--------------------------------------------
+
+function planH(){
+    Height = parseFloat(document.getElementById("Height").value);
+    $('#showH')[0].childNodes[0].data = 'Plan Height '+Height+' m.';
+    //console.log(Height);
+}
+
+function planW(){
+    Width = parseFloat(document.getElementById("Width").value);
+    $('#showW')[0].childNodes[0].data = 'Plan Width '+Width+' m.';
+    reRenderSeat();
+    //console.log(Width);
 }
 
 function appendSeatClass(number) {
@@ -84,7 +109,8 @@ function appendSeatClass(number) {
 }
 
 function getSeatClass(){
-    $.get('/fetchSeatClasshData',(data)=>{
+    var payload = { table : "seatclass" };
+    $.post('/fetchData',payload,(data)=>{
             SeatClass = data;
             appendSeatClass(1);
     });
@@ -92,7 +118,7 @@ function getSeatClass(){
 
 function addSeat() {
     if(count<=4){
-        $("#adj").append('<div id="SeatForm'+count+'" class="form-group row mb-0"><label for="SeatClass'+count+'" class="col-md-2 mt-2 mb-0" style="padding-left: 13px;">Seat Class '+count+'</label><div class="col-md-3 col-sm-3 col-3"><select name="SeatClass'+count+'" id="SeatClass'+count+'" onchange="clearSeat('+count+')" class="form-control-plaintext text-white"></select></div><label for="NoRow'+count+'" class="col-md-2 col-sm-3 col-3 mt-2 mb-0">No.Row</label><div class="col-md-3 col-sm-3 col-3"><button type="button" onclick="deleteSeatTH('+count+')" class="btn text-center text-white btn-white-rounded m-0 pl-2" style="width: 20px !important; min-width: 0px;" >-</button><input type="number" class="mt-2 custom-range text-white" readonly="readonly" style="text-align: center;width: 27px; border: 0px;" min="0" value="0" id="NoRow'+count+'" name="NoRow'+count+'"><button type="button" onclick="appendSeatTH('+count+')" class="btn text-center text-white btn-white-rounded m-0 pl-2" style="width: 24px !important; min-width: 0px;" >+</button></div><div></div></div>');
+        $("#adj").append('<div id="SeatForm'+count+'" class="form-group row mb-0"><label for="SeatClass'+count+'" class="col-md-2 mt-2 mb-0" style="padding-left: 13px;">Seat Class '+count+'</label><div class="col-md-3 col-sm-3 col-3"><select name="SeatClass'+count+'" id="SeatClass'+count+'" onchange="reRenderSeat()" class="form-control-plaintext text-white"></select></div><label for="NoRow'+count+'" class="col-md-2 col-sm-3 col-3 mt-2 mb-0">No.Row</label><div class="col-md-3 col-sm-3 col-3"><button type="button" onclick="deleteSeatTH('+count+')" class="btn text-center text-white btn-white-rounded m-0 pl-2" style="width: 20px !important; min-width: 0px;" >-</button><input type="number" class="mt-2 custom-range text-white" readonly="readonly" style="text-align: center;width: 27px; border: 0px;" min="0" value="0" id="NoRow'+count+'" name="NoRow'+count+'"><button type="button" onclick="appendSeatTH('+count+')" class="btn text-center text-white btn-white-rounded m-0 pl-2" style="width: 24px !important; min-width: 0px;" >+</button></div><div></div></div>');
         if(count>1)appendSeatClass(count);
         count++;
     }
@@ -106,7 +132,7 @@ function removeSeat() {
 }
 
 function changeValR(op,num) {
-    var value = parseInt($('#NoRow'+num).val());
+    var value = parseFloat($('#NoRow'+num).val());
     if(op===1){
         $('#NoRow'+num).val(value+1);
     }
@@ -117,16 +143,16 @@ function changeValR(op,num) {
 
 function appendSeatTH(num){
     var use=0,min=9999;
-    if(SeatClass != null){
+    if(SeatClass != null && Width>0){
         for(var i = 1; i < count; i++){
             var seatHeight = SeatClass.find((val)=>{ return val.ClassName==$('#SeatClass'+i).val()}).Height;
             //console.log(temp+"*"+(renderCount[i-1]-1));
             use += (seatHeight*(renderCount[i-1]-1));
         }
-
-        if(Height-use>=SeatClass.find((val)=>{ return val.ClassName==$('#SeatClass'+num).val()}).Height){
+        var SeatClassData = SeatClass.find((val)=>{ return val.ClassName==$('#SeatClass'+num).val()});
+        if(Height-use>=SeatClassData.Height && SeatClassData.Width<=Width){
             var seat = '<div id="render'+num+'R'+renderCount[num-1]+'" class="container-fluid pl-0 pr-0 mt-3 mb-3 d-flex justify-content-between" >'
-            for (let i = 0; i < Width/SeatClass.find((val)=>{ return val.ClassName==$('#SeatClass'+num).val()}).Width; i++) {
+            for (let i = 0; i < Width/SeatClassData.Width; i++) {
                 seat += '<span class="dot ml-1 mr-1"></span>';
             }
             seat += '</div>'
@@ -137,14 +163,6 @@ function appendSeatTH(num){
         }
     }
 }
-
-$(document).on("keypress", "form", function(event) { 
-    return event.keyCode != 13;
-});
-
-function pageRedirect() {
-    window.location.href = "http://localhost:8080/plan";
-} 
 
 function deleteSeatTH(num) {
     if(renderCount[num-1]>1){
@@ -160,8 +178,28 @@ function clearSeat(num) {
     }
 }
 
-function sentForm() {
-    var temp = Theatre.slice(1,Theatre.length);
+function reRenderSeat() {
+    let tempCount = [...renderCount];
+    for(var i=count; i>1; i--){
+        clearSeat(i-1);
+        for(var j=1; j<tempCount[i-2]; j++){
+            appendSeatTH(i-1);
+        }
+    }
+}
+
+//-------------------------------------Plan Form Function--------------------------------------------
+
+$(document).on("keypress", "form", function(event) { 
+    return event.keyCode != 13;
+});
+
+function pageRedirect() {
+    window.location.href = "http://localhost:8080/plan";
+} 
+
+function sentPlanForm() {
+    var temp = [...Theatre];
     //temp.shift();
     var payload = {
         PlanName: $('#Name').val(),
@@ -175,12 +213,17 @@ function sentForm() {
         NoRow3: $('#NoRow3').val(),
         SeatClass4: $('#SeatClass4').val(),
         NoRow4: $('#NoRow4').val(),
-        Theater: temp
+        Theatre: temp.slice(1,temp.length)
     };
-    if(payload.PlanName!='') $.post('/planAdd',payload,(res)=>{
-        pageRedirect();
+    if(payload.PlanName!='' && Height>0 && Width>0) $.post('/plan',payload,(res)=>{
+        $('#plan-success').fadeTo(2000, 500).slideUp(500, function(){
+            $(this).hide(); 
+        });
+        //pageRedirect();
     });
-    else $('.alert').show();
+    else $('#plan-warning').fadeTo(2000, 500).slideUp(500, function(){
+        $(this).hide(); 
+    });
 }
 
 addSeat();
