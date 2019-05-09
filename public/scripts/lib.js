@@ -156,7 +156,7 @@ class webstate{
         this.schedule = schedule;
     }
 
-    updateUIByAuth = () => {
+    updateUIByAuth=()=>{
         if(this.isAuth) {
             $('#head-login-btn').hide();
             $('#head-user-badge').show();

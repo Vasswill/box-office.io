@@ -60,7 +60,7 @@ router.get('/movies', (req,res)=>{
     let query = 'SELECT'+ (columns?columns:'*') 
                     + 'FROM `movie`' 
                     + (status||movieId ? 'WHERE':'') 
-                    + (movieId ? '`MovieNo`='+movieId:'') 
+                    + (movieId!=undefined ? '`MovieNo`='+movieId:'') 
                     + (status&&movieId ? 'AND':'') 
                     + (status=='show' ? '`MovieNo` IN (SELECT `MovieNo` FROM `schedule`)':'') + ';';
     mysql.connect(query)
@@ -98,21 +98,7 @@ router.get('/schedule', (req,res)=>{
     });
 });
 
-router.get('/fetchBranchData', (req,res) => {
-    var sql = "SELECT * FROM `branch`";
-    mysql.connect(sql)
-        .then((resp)=>{
-            if(resp.rows.length <= 0){
-                //return
-                res.sendStatus(404);
-            }
-            res.send({...req.user,...resp.rows[0]});
-        })
-        .catch((err)=>{
-            console.log('error',err);
-        });
-    }
-});
+
 
 router.post('/fetchData',(req,res)=>{
     console.log(req.body);
@@ -216,16 +202,16 @@ router.post('/branch', (req,res) => {
     console.log(sql)
 });
 
-router.post('/schedule', (req,res) => {
-    var data = req.body;
-    var sql = "INSERT INTO `schedule` (`MovieNo`, `TheatherCode`, `Date`, `Time`,`Audio`,`Dimension`,`Subtitle`) VALUES ('"+
-                data.movie+"','"+data.theater+"','"+data.Date+"','"+data.StartTime+"','"+data.Audio+"','"+data.Subtitle+"','"+data.AdDuration+"')";
-    console.log(sql)
+// router.post('/schedule', (req,res) => {
+    // var data = req.body;
+    // var sql = "INSERT INTO `schedule` (`MovieNo`, `TheatherCode`, `Date`, `Time`,`Audio`,`Dimension`,`Subtitle`) VALUES ('"+
+                // data.movie+"','"+data.theater+"','"+data.Date+"','"+data.StartTime+"','"+data.Audio+"','"+data.Subtitle+"','"+data.AdDuration+"')";
+    // console.log(sql)
     // mysql.connect(sql)
     //     .then((resp)=>{
     //         console.log(resp);
     //         res.redirect('/schedule');
     //     });
     // console.log(sql)
-});
+// });
 module.exports = router;
