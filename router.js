@@ -122,7 +122,7 @@ router.get('/branch', (req,res) => {
     });
 });
 
-router.get('/Sschedule', (req,res) => {
+router.get('/addSchedule', (req,res) => {
     res.render('partials/schedule', {
         auth: false
     });
