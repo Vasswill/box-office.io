@@ -27,16 +27,80 @@ router.all('/guest', (req,res)=>{
     });
 });
 
-router.get('/userdata', checkAuthentication, (req,res)=>{
-    console.log('/userdata<--',req.query);
+router.get('/user', checkAuthentication, (req,res)=>{
     if(Object.keys(req.query).length==0){
         res.send(req.user);
     }else{
-        let columns = '`'+req.query.columns.join().replace(',','`,`')+'`';
+        let columns = '`'+req.query.columns.join().replace(/,/g,'`,`')+'`';
+        if(req.query.columns.includes('*')) columns = '*';
         let table = req.user.customerNo == null ? 'staff' : 'customer';
         let searchField = req.user.customerNo == null ? 'StaffNo' : 'CustomerNo';
         let userNo = req.user.customerNo == null ? req.user.staffNo : req.user.customerNo;
         mysql.connect('SELECT '+columns+' FROM `'+table+'` WHERE `'+searchField+'`='+userNo+';')
+        .then((resp)=>{
+            if(resp.rows.length <= 0){
+                //return
+                res.sendStatus(404);
+            }
+            res.send({...req.user,...resp.rows[0]});
+        })
+        .catch((err)=>{
+            console.log('error',err);
+        });
+    }
+});
+
+router.get('/movies', (req,res)=>{
+    let status = req.query.status == '' ? undefined:req.query.status;
+    let movieId = req.query.movieId == '' ? undefined:req.query.movieId;
+    let columns = undefined;
+    if(typeof req.query.columns != 'undefined'){
+        columns = req.query.columns.length > 0 ? '`'+req.query.columns.join().replace(/,/g,'`,`')+'`':undefined;
+    }
+    let query = 'SELECT'+ (columns?columns:'*') 
+                    + 'FROM `movie`' 
+                    + (status||movieId ? 'WHERE':'') 
+                    + (movieId ? '`MovieNo`='+movieId:'') 
+                    + (status&&movieId ? 'AND':'') 
+                    + (status=='show' ? '`MovieNo` IN (SELECT `MovieNo` FROM `schedule`)':'') + ';';
+    mysql.connect(query)
+    .then((resp)=>{
+        if(resp.rows.length <= 0){
+            //return
+            res.sendStatus(404);
+        }
+        console.log('found',resp.rows.length,'movie(s)');
+        res.send(resp.rows);
+    })
+    .catch((err)=>{
+        console.log('error',err);
+    });
+});
+
+router.get('/schedule', (req,res)=>{
+    let status = req.query.status == '' ? undefined:req.query.status;
+    let movieId = req.query.movieId == '' ? undefined:req.query.movieId;
+    let query = 'SELECT s.*,t.BranchNo,t.PlanName, b.BranchName, b.BranchAddress FROM `schedule` s '
+                    + 'JOIN (SELECT * FROM theater) AS t ON s.TheatherCode = t.TheaterCode '
+                    + 'JOIN (SELECT * FROM branch) AS b ON t.BranchNo = b.BranchNo '
+                    + 'WHERE `MovieNo`='+movieId;
+    mysql.connect(query)
+    .then((resp)=>{
+        if(resp.rows.length <= 0){
+            //return
+            res.sendStatus(404);
+        }
+        console.log('found',resp.rows.length,'schedule(s)');
+        res.send(resp.rows);
+    })
+    .catch((err)=>{
+        console.log('error',err);
+    });
+});
+
+router.get('/fetchBranchData', (req,res) => {
+    var sql = "SELECT * FROM `branch`";
+    mysql.connect(sql)
         .then((resp)=>{
             if(resp.rows.length <= 0){
                 //return
@@ -138,7 +202,7 @@ router.post('/login',
 router.get('/logout', checkAuthentication, (req,res)=>{
     req.logout();
     res.redirect('/')
-})
+});
 
 router.post('/branch', (req,res) => {
     var data = req.body;
