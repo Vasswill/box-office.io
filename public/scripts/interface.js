@@ -1,24 +1,34 @@
-$('.nshowing').text($('.program-row .poster-card').length);
-$('#popup-close, .popup-area').click(function(e){
-    if (e.target !== this&&this!=$('#popup-close')[0])return;
+let nowShowing = undefined;
+let webState = undefined;
+$(document).ready(function(){
+    webState = new webstate(auth);
+});
+
+$('.popup-area, #popup-close').click(function(e){
+    if(e.target != this && e.target != this.children[0]) return;
     $('.web-body').removeClass('overlay');
     $(this).closest('.popup-area').hide();
 });
-$('button').click(function(){
+
+$('.web-body').on('popup-closeAll', function(){
+    $('.web-body').removeClass('overlay');
+    $('.popup-area').hide();
+});
+
+$('button, .side-bar-icon').click(function(){
     let popupId = $(this).data('popup');
     if(popupId){
         $('.web-body').addClass('overlay');
-        $('#'+popupId).show();
+        $('#'+popupId).trigger('init').show();
     }
 })
+
 $('.logo').dblclick(function(){
     $('.content-box').toggleClass('special-mode');
 });
 
-if(auth){
-    $('#head-login-btn').hide();
-    $('#head-user-badge').show();
-    if(uRole==2){
-        $('#toAdmin-btn').show();
-    }
-}
+$('button').on('reset', function(e, isDisable=true, moreClass=undefined){
+    if($(this).data('default-disable')&&isDisable) $(this).prop("disabled", true);
+    if(typeof $(this).data('default-class') != 'undefined'||moreClass) $(this).attr( "class", $(this).data('default-class')+' '+(moreClass?moreClass:''));
+    if(typeof $(this).data('default-txt') != 'undefined') $(this).find('span').text($(this).data('default-txt'));
+});

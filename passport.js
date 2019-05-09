@@ -3,12 +3,12 @@ const   passport = require('passport'),
         LocalStrategy = require('passport-local').Strategy;
 
 passport.serializeUser(function(user, done) {
-    console.log('serialize run');
+    //console.log('serialize run');
     done(null, user.Username);
 });
 
 passport.deserializeUser(function(username, done) {
-    console.log('deserialize run');
+    //console.log('deserialize run');
     mysql.connect('SELECT * FROM users WHERE username="'+username+'";')
     .then((users)=>{
         if(users.rows.length>=0){
@@ -18,7 +18,7 @@ passport.deserializeUser(function(username, done) {
                 customerNo: users.rows[0]['CustomerNo.'],
                 staffNo: users.rows[0]['StaffNo.']
             }
-            console.log('login 2 success!-->',user);
+            //console.log('login 2 success!-->',user);
             return done(null, user);
         }
     })
@@ -29,18 +29,18 @@ passport.deserializeUser(function(username, done) {
 
 passport.use(new LocalStrategy(
     function(username, password, done) {
-        console.log('strategy run', username, password);
+        //console.log('strategy run', username, password);
         mysql.connect('SELECT * FROM users WHERE username="'+username+'";')
         .then((users)=>{
             if(users.rows.length <= 0){
                 return done(null, false);
             }
             if(users.rows[0].Password != password){
-                console.log(users.rows[0], password);
+                //console.log(users.rows[0], password);
                 return done(null, false);
             }
             delete users.rows[0].Password;
-            console.log('login 1 success!-->',users.rows[0]);
+            //console.log('login 1 success!-->',users.rows[0]);
             return done(null, users.rows[0]);
         })
         .catch((err)=>{

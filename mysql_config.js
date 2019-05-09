@@ -1,16 +1,35 @@
 const mysql = require('mysql');
 
-const mysql_connection = mysql.createConnection({
+const config = {
     host     : '85.10.205.173',
     user     : 'boxoffice_admin',
     password : '11121150',
     database : 'db_boxoffice_io'
-});
+};
 
+let connection = undefined;
+
+const init_connection = () => {
+    connection = mysql.createConnection(config);
+    connection.connect((err)=>{
+        if(err){
+            console.log('Error connecting to db:',err);
+            setTimeout(init_connection, 2000);
+        }
+    });
+    connection.on('error', (err)=>{
+        console.log('db error ===>',err);
+        if(err.code === 'PROTOCOL_CONNECTION_LOST' || 'ETIMEDOUT'){
+            init_connection();
+        } else{
+            throw err;
+        }
+    });
+}
 
 const connect = (query) => {
     return new Promise(function(resolve, reject){
-        mysql_connection.query(query, (err, rows, fields)=>{
+        connection.query(query, (err, rows, fields)=>{
             if(err) reject(err);
             resolve({
                 rows: rows,
@@ -20,6 +39,8 @@ const connect = (query) => {
         
     });
 }
+
+init_connection();
 
 module.exports = {connect: connect};
 

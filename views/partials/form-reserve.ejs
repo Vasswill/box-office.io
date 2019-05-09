@@ -1,0 +1,154 @@
+<div class='content-form' id='reservation-form'>
+    <form action="" id='reservation-form-element'>
+        <div class="form-tab row" id='tab0'>
+            <input type="text" id='movieName' name='movieName' class="hide">
+            <input type="number" id='movieNo' name='movieNo' class="hide">
+            <div class='col-12 head-group' data-color='red'>
+                <span class='tab-head head-text level1'>Select Movie</span>
+                <span class='head-text level2'>Movie & Theatre shown below</span>
+            </div>
+            <div class="col-8 col-xs-12" style="height:fit-content; border-right: 2px dashed;">
+                <button type="button" id='reserv-nshow-movies' data-default-txt='Select Movie' data-default-class='btn-white' class="btn-white" style="width:49%;height:100%;display: inline-flex;"><span>Select Movie</span><i class="fas fa-sort-down"></i></button>
+                <div id='show-theatre-btn' class="dropdown">
+                    <button class="btn-white dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id='reserv-nshow-branch' data-default-class='btn-white dropdown-toggle' data-default-disable='true' data-default-txt='Select Theatre Branch' style="width:49%;display: inline-flex;" disabled><span>Select Theatre Branch</span></button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style='transform: translate3d(0px, 31px, 0px)!important;width: -webkit-fill-available;'>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4 col-xs-12">
+                <button type="button" id='show-schedule-btn' class="btn-red" style="width:100%;display: inline-flex;justify-content: center;" data-default-disable='true' disabled><span>Show Schedule  <i class="fas fa-clock"></i></span></button>
+            </div>
+            <div class="col-12" style='max-height: 60vh;overflow-y: auto;margin-top: 20px;'>
+                <div class='row reserv-render-area' style='margin-top: 10px;'>
+                </div>
+            </div>
+        </div>
+        <div class='form-tab row hide' id='tab1'>
+            <input type="text" id='tab1-branchNo' name='branchNo' class="hide">
+            <input type="text" id='tab1-scheduleNo' name='scheduleNo' class="hide">
+            <div class='head-group' data-color='red' style='padding-bottom: 10px;border-bottom: 1px solid #ffffff47;'>
+                <span id='tab1-movieName' class='head-text level1'></span>
+                <span class='head-text level2' style='margin-top: 7px; margin-bottom: 0;'>Description <span class='head-text-badge'></span></span>
+                <div id='tab1-movieDesc' class='head-text level3' style='height: 50px; overflow-y: scroll;'></div>
+            </div>
+            <div class='col-12 row'>
+                <div class='col-6' style='padding:7px;'>
+                    <span class='head-text level2'>Select Theatre Branch</span>
+                    <ul class='open-list' id='tab1-branch-list'></ul>
+                </div>
+                <div class='col-6' style='padding:7px;'>
+                    <span class='head-text level2'>Select Schedule</span>
+                    <ul class='open-list' id='tab1-schedule-list'></ul>
+                </div>
+            </div>
+            
+        </div>
+    </form>
+</div>
+
+<script>
+    let ticketingForm = undefined;
+
+    function selectMovie (movieIndex, target){
+        let movie = webState.showingList[movieIndex];
+        $('#movieName').val(movie.MovieName);
+        $('#movieNo').val(movie.MovieNo);
+        $('#reserv-nshow-movies>span').text(movie.MovieName.replace('+',''));
+        if(ticketingForm){
+            ticketingForm.kill();
+            ticketingForm.iterate(0);
+        }
+        if(!ticketingForm) {
+            ticketingForm = new ticketingProcess(
+                $('#reservation-form-element'),
+                webState.temp.schedulesSelection,
+                webState.temp.movieSelection,
+                auth,
+                webState
+            );
+        }
+        
+        $('#reserv-nshow-movies').addClass('btn-green');
+        $('#reserv-nshow-movies').removeClass('btn-white');
+        $('#reserv-nshow-branch').removeAttr("disabled");
+        if(typeof target != 'undefined') {
+            let popupId = target.dataset.popup;
+            if(typeof popupId != 'undefined'){
+                //$('.web-body').trigger('popup-closeAll');
+                $('.web-body').addClass('overlay');
+                $('#'+popupId).show();
+            }
+        }
+        webState.temp.movieSelection = movie;
+        $('#reserv-nshow-branch').trigger('select-movie');
+    }
+    function selectTheatreBranch (branchNo){
+        console.log('skeect branch', ticketingForm);
+        let allSchedulesForMovie = webState.temp.schedulesSelection;
+        let movie = webState.temp.movieSelection;
+        allSchedulesForMovie.forEach((schedule)=>{
+            if(schedule.BranchNo == branchNo) webState.temp.branchSelection = {name: schedule.BranchName, id: schedule.BranchNo};
+        });
+        $('#show-schedule-btn').removeAttr("disabled");
+        $('#reserv-nshow-branch span').text(webState.temp.branchSelection.name);
+        $('#reserv-nshow-branch').addClass('btn-green');
+        $('#reserv-nshow-branch').removeClass('btn-white wait');
+        
+        $('#show-schedule-btn').off('click');
+        $('#show-schedule-btn').click(function(){
+            ticketingForm.movie = movie;
+            ticketingForm.schedules = allSchedulesForMovie;
+            ticketingForm.iterate();
+        });
+    }
+    
+    $('#buy-ticket-popup').on('init', function(){
+        $('#reserv-nshow-branch').trigger('reset');
+        $('#reserv-nshow-movies').trigger('reset');
+        $('#reserv-nshow-branch+.dropdown-menu').children().remove();
+        if(ticketingForm) ticketingForm.kill();
+        ticketingForm = new ticketingProcess(
+            $(this).find('#reservation-form-element'),
+            webState.temp.schedulesSelection,
+            webState.temp.movieSelection,
+            auth,
+            webState
+        );
+        ticketingForm.iterate(0);
+    });
+
+    $('#buy-ticket-popup').on('show-branch',function(e){
+        $('#reserv-nshow-branch+.dropdown-menu').empty();
+        //$('#buy-ticket-popup').data('schedule', JSON.stringify(schedules));
+        let i = 0;
+        webState.temp.schedulesSelection.forEach((schedule)=>{
+            if($('#reserv-nshow-branch+.dropdown-menu').last().text() != schedule.BranchName){
+                $('#reserv-nshow-branch+.dropdown-menu').append("<div class='dropdown-item' onclick='selectTheatreBranch("+schedule.BranchNo+")'>"+schedule.BranchName+"</div>");
+            }
+        });
+    });
+
+    $('#reserv-nshow-movies').click(function(e){
+        $('#show-schedule-btn').trigger('reset');
+        $(this).trigger('reset');
+        $('#reserv-nshow-branch').trigger('reset');
+        $('.reserv-render-area').empty().append('<img src="/assets/images/load_placeholder.svg" style="margin:20px auto;">');
+        webState.renderMoviesGrid($('.program-row'), 'index-row');
+        webState.renderMoviesGrid($('.reserv-render-area'));
+    });
+
+    $("#reserv-nshow-branch").on('select-movie',function(e){
+        $('.reserv-render-area').empty().append('<img src="/assets/images/load_placeholder.svg" style="margin:20px auto;">');
+        $(this).trigger('reset',[false,'wait']);
+        
+        fetchData('schedule',{movieId:webState.temp.movieSelection.MovieNo},(data,err)=>{
+            if(!err){
+                webState.temp.schedulesSelection = data;
+                $('.reserv-render-area').empty();
+                $('#buy-ticket-popup').trigger('show-branch');
+            }else{
+                console.log(err);
+            }
+        });
+    });
+</script>
