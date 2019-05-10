@@ -362,7 +362,7 @@ button > i{
     height: fit-content;
     background: #08090a;
     color: white;
-    padding: 10px;
+    padding: 10px!important;
 }
 
 .popup-window.plain{
@@ -392,7 +392,7 @@ button > i{
 
 .popup-window .popup-body{
     flex: 1;
-    padding: 10px;
+    padding: 5px;
 }
 
 .popup-window .form-group, .popup-window .form-control{
@@ -656,4 +656,66 @@ input.hide, form .hide{
 
 .open-list li.selected .badge{
     border-color: black!important;
+}
+
+.seat-dot, .seat-dot.available{
+    display: inline-flex;
+    min-width: 25px;
+    margin: 3px;
+    background: #ffffff38;
+    width: 25px;
+    height: 25px;
+    border: 2.5px solid rgba(0, 0, 0, 0.5);
+    border-radius: .35rem;
+    cursor: pointer;
+    -webkit-border-radius: .35rem;
+    -moz-border-radius: .35rem;
+    -ms-border-radius: .35rem;
+    -o-border-radius: .35rem;
+}
+.seat-dot.selected{
+    background: var(--color-green);
+}
+.seat-dot.full{
+    background: var(--color-red);
+    cursor: crosshair;
+}
+.seat-dot+.seat-desc{
+    font-size: .7rem;
+    color: white;
+}
+
+.seat-allocation{
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tab2-seat-renderarea{
+    overflow-x: auto; 
+    padding: 0!important;
+}
+
+.tab2-seat-renderarea #tab2-seat-class-1, .tab2-seat-renderarea #tab2-seat-class-2, 
+.tab2-seat-renderarea #tab2-seat-class-3, .tab2-seat-renderarea #tab2-seat-class-4{
+    overflow-x: auto;
+    padding: 0!important;
+}
+
+.tab2-seat-row{
+    display: flex;
+    justify-content: space-evenly;
+    white-space: nowrap;
+}
+
+@media screen and (max-width: 768px) {
+    #buy-ticket-popup .floating{
+        display: none;
+    }
+    #buy-ticket-popup .popup-window{
+        margin: auto;
+    }
+    #buy-ticket-popup.popup-area{
+        margin: auto;
+    }
 }

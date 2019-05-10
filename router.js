@@ -81,7 +81,7 @@ router.get('/schedule', (req,res)=>{
     let status = req.query.status == '' ? undefined:req.query.status;
     let movieId = req.query.movieId == '' ? undefined:req.query.movieId;
     let query = 'SELECT s.*,t.BranchNo,t.PlanName, b.BranchName, b.BranchAddress FROM `schedule` s '
-                    + 'JOIN (SELECT * FROM theater) AS t ON s.TheatherCode = t.TheaterCode '
+                    + 'JOIN (SELECT * FROM theatre) AS t ON s.TheatreCode = t.TheatreCode '
                     + 'JOIN (SELECT * FROM branch) AS b ON t.BranchNo = b.BranchNo '
                     + 'WHERE `MovieNo`='+movieId;
     mysql.connect(query)
@@ -91,6 +91,49 @@ router.get('/schedule', (req,res)=>{
             res.sendStatus(404);
         }
         console.log('found',resp.rows.length,'schedule(s)');
+        res.send(resp.rows);
+    })
+    .catch((err)=>{
+        console.log('error',err);
+    });
+});
+
+router.get('/plan', (req,res)=>{
+    let theatreId = req.query.theatreId == '' ? undefined:req.query.theatreId;
+    let query = "SELECT p.* FROM `plan` p,`theatre` t "
+                    + "WHERE t.TheatreCode = '" + theatreId + "' "
+                    + "AND p.PlanName = t.PlanName";
+    mysql.connect(query)
+    .then((resp)=>{
+        if(resp.rows.length <= 0){
+            //return
+            res.sendStatus(404);
+        }
+        console.log('found',resp.rows.length,'theatre plan(s)');
+        res.send(resp.rows);
+    })
+    .catch((err)=>{
+        console.log('error',err);
+    });
+});
+
+router.get('/seatclass', (req,res)=>{
+    let classNames = req.query.className == '' ? undefined:req.query.className;
+    let query = "SELECT * FROM `seatclass` WHERE "
+    let i = 0;
+    classNames.forEach((className)=>{
+        if(i>0) query += ' OR '
+        query += "`ClassName`='"+className+"'";
+        i++;
+    }) 
+    query+=";" 
+    mysql.connect(query)
+    .then((resp)=>{
+        if(resp.rows.length <= 0){
+            //return
+            res.sendStatus(404);
+        }
+        console.log('found',resp.rows.length,'theatre plan(s)');
         res.send(resp.rows);
     })
     .catch((err)=>{
@@ -116,9 +159,9 @@ router.get('/fetchSeatClasshData', (req,res) =>{
         });
 });
 
-router.get('/seat', (req,res) => {
-    res.render('partials/seatclass');
-});
+// router.get('/seat', (req,res) => {
+//     res.render('partials/seatclass');
+// });
 
 router.post('/seatAdd', (req,res) => {
     var data = req.body;
@@ -131,9 +174,9 @@ router.post('/seatAdd', (req,res) => {
         });
 });
 
-router.get('/plan', (req,res)=>{
-    res.render('partials/plan');
-});
+// router.get('/plan', (req,res)=>{
+//     res.render('partials/plan');
+// });
 
 router.post('/planAdd', (req,res)=>{
     var data = req.body;
@@ -145,8 +188,8 @@ router.post('/planAdd', (req,res)=>{
     mysql.connect(sql)
         .then((resp)=>{
             console.log(resp);
-            var sql = "INSERT INTO `theater`(`TheaterCode`, `BranchNo`, `PlanName`) VALUES ";
-            data.Theater.forEach((value) => {
+            var sql = "INSERT INTO `theatre`(`TheatreCode`, `BranchNo`, `PlanName`) VALUES ";
+            data.Theatre.forEach((value) => {
                 sql += "('"+value.Name+"','"+value.Branch+"','"+data.PlanName+"'),";
             });
             sql = sql.substring(0, sql.length-1);
@@ -162,8 +205,8 @@ router.post('/planAdd', (req,res)=>{
 
 router.post('/theatreAdd', (req,res)=>{
     var data = req.body;
-    var sql = "INSERT INTO `theater`(`TheaterCode`, `BranchNo`, `PlanName`) VALUES ";
-    data.Theater.forEach((value) => {
+    var sql = "INSERT INTO `theatre`(`TheatreCode`, `BranchNo`, `PlanName`) VALUES ";
+    data.Theatre.forEach((value) => {
         sql += "('"+value.Name+"','"+value.Branch+"','"+data.PlanName+"'),";
     });
     sql = sql.substring(0, sql.length-1);
