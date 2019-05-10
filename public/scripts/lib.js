@@ -220,7 +220,9 @@ class webstate{
 class ScheduleProcess{
     constructor(){
         // ตัวแปรเก็บ + (operationดึง+onclick)
-
+        fetchData("movies",{MovieNo})
+        fetchData("branch",{BranchNo})
+        fetchData("theatre",{TheatreCode})
     }
     // function อื่นๆ เรียก ondemand
 }
