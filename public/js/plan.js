@@ -1,6 +1,6 @@
 //var Theatre = [{Name:'Add New Theatre',Branch:'NULL',Detail:{Type:'Create',Old:''}},{Name:'TH01',Branch:'1',Detail:{Type:'Load',Old:''}},{Name:'TH02',Branch:'2',Detail:{Type:'Load',Old:''}},{Name:'TH03',Branch:'3',Detail:{Type:'Load',Old:''}},{Name:'TH04',Branch:'4',Detail:{Type:'Load',Old:''}}];
 var Theatre = [{Name:'Add New Theatre',Branch:'NULL',Detail:{Type:'Create',Old:''}}];
-var SeatClass,Height=0,Width=0;
+var SeatClass,PlanHeight=0,PlanWidth=0;
 var count=1
     Thcount=0
     nowTH=0;
@@ -37,7 +37,7 @@ function removeTh(id){
         case 'Update' : Theatre[id].Detail.Type = 'Delete'; break;
     }
     $('#NameTheatre').val('');
-    $('#Branch').val('');
+    $('#TheatreBranch').val('');
     reRenderTHTable();
     nowTH = 0;
 }
@@ -46,14 +46,14 @@ function editTh(id){
     $('#Th'+id).addClass('bg-secondary').siblings().removeClass('bg-secondary');
     if(id>0){
         $('#NameTheatre').val(Theatre[id].Name);
-        $('#Branch').val(Theatre[id].Branch);
+        $('#TheatreBranch').val(Theatre[id].Branch);
     }
     else $('#NameTheatre').val('');
     nowTH=id;
 }
 
 function saveTheatre(){
-    var data = {Name:$('#NameTheatre').val(), Branch:$('#Branch').val(),Detail:{Type:'Create',Old:''}}
+    var data = {Name:$('#NameTheatre').val(), Branch:$('#TheatreBranch').val(),Detail:{Type:'Create',Old:''}}
     if(data.Name!='' && data.Branch){
         $('#NameTheatre').val('');
         if(nowTH==0){
@@ -82,7 +82,7 @@ function addBranchOption(){
     var payload = { table : "branch" };
     $.post('/fetchData',payload,(data)=>{
             data.forEach((value,key)=>{
-            $("#Branch").append('<option class="form-control-plaintext" value="'+value.BranchNo+'">'+value.BranchName+'</option>');
+            $("#TheatreBranch").append('<option class="form-control-plaintext" value="'+value.BranchNo+'">'+value.BranchName+'</option>');
         })
     });
 }
@@ -90,14 +90,16 @@ function addBranchOption(){
 //-------------------------------------Plan Function--------------------------------------------
 
 function planH(){
-    Height = parseFloat(document.getElementById("Height").value);
-    $('#showH')[0].childNodes[0].data = 'Plan Height '+Height+' m.';
+    PlanHeight = parseFloat(document.getElementById("PlanHeight").value);
+    $('#showH')[0].childNodes[0].data = 'Plan Height '+PlanHeight+' m.';
+    document.getElementById("PlanHeight").value = PlanHeight;
     //console.log(Height);
 }
 
 function planW(){
-    Width = parseFloat(document.getElementById("Width").value);
-    $('#showW')[0].childNodes[0].data = 'Plan Width '+Width+' m.';
+    PlanWidth = parseFloat(document.getElementById("PlanWidth").value);
+    $('#showW')[0].childNodes[0].data = 'Plan Width '+PlanWidth+' m.';
+    document.getElementById("PlanWidth").value = PlanWidth;
     reRenderSeat();
     //console.log(Width);
 }
@@ -143,16 +145,16 @@ function changeValR(op,num) {
 
 function appendSeatTH(num){
     var use=0,min=9999;
-    if(SeatClass != null && Width>0){
+    if(SeatClass != null && PlanWidth>0){
         for(var i = 1; i < count; i++){
-            var seatHeight = SeatClass.find((val)=>{ return val.ClassName==$('#SeatClass'+i).val()}).Height;
+            var seatHeight = SeatClass.find((val)=>{ return val.ClassName==$('#SeatClass'+i).val()}).PlanHeight;
             //console.log(temp+"*"+(renderCount[i-1]-1));
             use += (seatHeight*(renderCount[i-1]-1));
         }
         var SeatClassData = SeatClass.find((val)=>{ return val.ClassName==$('#SeatClass'+num).val()});
-        if(Height-use>=SeatClassData.Height && SeatClassData.Width<=Width){
+        if(PlanHeight-use>=SeatClassData.Height && SeatClassData.Width<=PlanWidth){
             var seat = '<div id="render'+num+'R'+renderCount[num-1]+'" class="container-fluid pl-0 pr-0 mt-3 mb-3 d-flex justify-content-between" >'
-            for (let i = 0; i < Width/SeatClassData.Width; i++) {
+            for (let i = 0; i < PlanWidth/SeatClassData.Width; i++) {
                 seat += '<span class="dot ml-1 mr-1"></span>';
             }
             seat += '</div>'
@@ -202,9 +204,9 @@ function sentPlanForm() {
     var temp = [...Theatre];
     //temp.shift();
     var payload = {
-        PlanName: $('#Name').val(),
-        PlanHeight: Height,
-        PlanWidth: Width,
+        PlanName: $('#PalnName').val(),
+        PlanHeight: PlanHeight,
+        PlanWidth: PlanWidth,
         SeatClass1: $('#SeatClass1').val(),
         NoRow1: $('#NoRow1').val(),
         SeatClass2: $('#SeatClass2').val(),
@@ -215,7 +217,7 @@ function sentPlanForm() {
         NoRow4: $('#NoRow4').val(),
         Theatre: temp.slice(1,temp.length)
     };
-    if(payload.PlanName!='' && Height>0 && Width>0) $.post('/plan',payload,(res)=>{
+    if(payload.PlanName!='' && PlanHeight>0 && PlanWidth>0) $.post('/plan',payload,(res)=>{
         $('#plan-success').fadeTo(2000, 500).slideUp(500, function(){
             $(this).hide(); 
         });
