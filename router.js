@@ -6,8 +6,13 @@ const   express = require('express'),
         moment = require('moment');
         passport = require('./passport');
 
-router.post('/fetchData', (req,res) => {
-    var sql = "SELECT * FROM `"+req.body.table+"`";
+router.get('/fetchData/:table/:condition', (req,res) => {
+    var sql = "SELECT * FROM `"+req.params.table+"` ",
+        condition = req.params.condition.split("-");
+    if(condition[0]!="none"){
+        sql += "WHERE `"+condition[0]+"` = '"+condition[1]+"'";
+    }
+    console.log(sql);
     mysql.connect(sql)
         .then((resp)=>{
             //console.log(resp);
