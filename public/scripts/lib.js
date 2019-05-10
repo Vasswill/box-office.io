@@ -10,16 +10,8 @@ const fetchData = (topic, data, next) => {
             });
             break;
         }
-        case 'movies':{
-            $.get('/movies',data, (dataBack)=>{
-                next(dataBack,null);
-            }).fail((err)=>{
-                next(null,err);
-            });
-            break;
-        }
-        case 'schedule':{
-            $.get('/schedule',data, (dataBack)=>{
+        default: {
+            $.get('/'+topic,data, (dataBack)=>{
                 next(dataBack,null);
             }).fail((err)=>{
                 next(null,err);
@@ -67,8 +59,8 @@ class ticketingProcess {
         this.form.closest('.popup-window').find('.popup-footer :nth-child(2)').off('click').click(()=>{this.iterate(this.step+1)});
     }
 
-    worker(){
-        switch(this.step){
+    worker(customStep=null){
+        switch(customStep==null ? this.step:customStep){
             case 1:{
                 this.form.closest('.popup-window').find('.popup-footer').children().remove();
                 this.form.closest('.popup-window').find('.popup-footer').append('<i class="nav-btn fas fa-arrow-circle-left"></i><i class="nav-btn fas fa-arrow-circle-right"></i>');
@@ -104,14 +96,45 @@ class ticketingProcess {
                         this.form.find('#tab1 #tab1-schedule-list').append('<li data-branch="'+branchName+'">'+schedule.Time+'<span class="badge" style="margin-left: 1rem;">'+schedule.Dimension+'</span></li>');
                         if(this.webState.temp.branchSelection.name != branchName){this.form.find('#tab1 #tab1-schedule-list').children().last().hide();}
                         else this.form.find('#tab1 #tab1-branch-list').children().last().addClass('selected');
+                        let origin = this;
                         this.form.find('#tab1 #tab1-schedule-list').children().last().click(function(){
                             form.find('#tab1-branchNo').val(schedule.BranchNo);
                             form.find('#tab1-scheduleNo').val(schedule.ScheduleNo);
+                            $('#buy-ticket-popup').trigger('get-theatre-plan', [schedule]);
+                            origin.temp.scheduleSelection = schedule;
                             $(this).addClass('selected');
                             $(this).siblings().removeClass('selected');
                         });
                     });
                 });
+                break;
+            }
+            case 2: {
+                this.form.find('#tab2-theatreCode').text(this.temp.scheduleSelection.TheatreCode);
+                if(typeof this.temp.seatClassForPlan != 'undefined'){
+                    let i = 1;
+                    let rowNum = 0;
+                    this.temp.seatClassForPlan.forEach(seatclass => {
+                        let nPerRow = Math.floor(this.temp.planSelection.PlanWidth / seatclass.Width);
+                        let nRow = this.temp.planSelection['NumberRow'+i];
+                        let DOMWidthPercent = 100/nPerRow;
+                        let price = seatclass.Price;
+                        let isCouple = !!seatclass.Couple;
+
+                        $('#tab-2-seat-class-'+i).children().remove();
+                        $('#tab-2-seat-class-'+i).append('<div class="tab2-seat-row"></div>');
+                        for(let seatNum=0; seatNum<nPerRow*nRow; seatNum++){
+                            let seatNumForThisRow = seatNum%(nPerRow)+1;
+                            let seatChar = rowNum==0? String.fromCharCode(65 + rowNum%26).repeat(1) : String.fromCharCode(65 + rowNum%26).repeat(Math.ceil(rowNum/rowNum));
+                            $('#tab-2-seat-class-'+i).children().last().append('<div class="seat-dot available" data-seat-code="'+seatChar+seatNumForThisRow+'"></div>');
+                            if(seatNumForThisRow==nPerRow){
+                                rowNum++;
+                                $('#tab-2-seat-class-'+i).append('<div class="tab2-seat-row"></div>');
+                            }
+                        }
+                        i++;
+                    });
+                }
                 break;
             }
         }
@@ -134,13 +157,14 @@ class webstate{
         this.role = this.isAuth ? uRole:undefined;
         this.temp = {};
         if(typeof this.role!='undefined') this.role = this.role == 2 ? 'admin':'user';
-        if(this.isAuth) this.updateUIByAuth();
-
-        fetchData('user',['*'], (data,err)=>{
-            if(!err){
-                this.userData = data;
-            }
-        });
+        if(this.isAuth) {
+            fetchData('user',['*'], (data,err)=>{
+                if(!err){
+                    this.userData = data;
+                    this.updateUIByAuth();
+                }
+            });
+        }
         fetchData('movies',{status: 'show'},(data,err)=>{
             if(!err){
                 this.showingList = data;
