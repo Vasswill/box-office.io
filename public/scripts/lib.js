@@ -191,3 +191,13 @@ class webstate{
     }
 
 }
+
+
+class ScheduleProcess{
+    constructor(){
+        // ตัวแปรเก็บ + (operationดึง+onclick)
+
+    }
+    // function อื่นๆ เรียก ondemand
+}
+

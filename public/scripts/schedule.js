@@ -33,6 +33,7 @@ function showTheater(cl,data) {
         data.forEach((value,key)=>{
             if(cl==value.BranchNo)
             $("#theater").append('<tr class="default-mouse clickTable"><th class="text-white theaterTable" scope="col">'+value.TheatreCode+'</th></tr>');
+            
         });
         console.log(data)
     });
