@@ -12,7 +12,7 @@ router.get('/fetchData/:table/:condition', (req,res) => {
     if(condition[0]!="none"){
         sql += "WHERE `"+condition[0]+"` = '"+condition[1]+"'";
     }
-    console.log(sql);
+    //console.log(sql);
     mysql.connect(sql)
         .then((resp)=>{
             //console.log(resp);
