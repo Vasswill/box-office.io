@@ -47,26 +47,16 @@
             <div class='col-2' style='font-size: .7rem;'><strong>Theatre</strong></br><span id='tab2-theatreCode' style='text-transform: uppercase;'></span></div>
             <div class='col-9 row'>
                 <div class='col-12' style='justify-content: center;display: flex;'>
-                    <span><div class='seat-dot full'></div><span class="seat-desc">Not Available</span></span>
+                    <span><input readonly="readonly" id='ex-seat-dot-disabled' type="checkbox" class='seat-dot-checkbox' disabled><label for='ex-seat-dot-disabled' class='seat-dot'></label><span class="seat-desc">Not Available</span></span>
                     <span><div class='seat-dot available'></div><span class="seat-desc">Available</span></span>
-                    <span><div class='seat-dot selected'></div><span class="seat-desc">Selected</span></span>
+                    <span><input readonly="readonly" id='ex-seat-dot-checked' type="checkbox" class='seat-dot-checkbox' checked><label for='ex-seat-dot-checked' class='seat-dot'></label><span class="seat-desc">Selected</span></span>
                 </div>
-                <div class='col-12' style='font-size:1rem;justify-content: center;display: flex;border: 1px solid white;border-radius: 5rem;margin: 5px 0;'>Screen</div>
+                <div class='col-12 screen-symbol'></div>
             </div>
             <div class='col-1'></div>
             <!-- row2 seat render -->
-
-            <div class='col-12'>
-                
+            <div class='col-12 seat-renderarea'>
             </div>
-            <!-- <div class='tab2-seat-renderarea col-12'>
-                <div id='tab-2-seat-class-1' style='padding: 0;'></div>
-                <div id='tab-2-seat-class-2' style='padding: 0;'></div>
-                <div id='tab-2-seat-class-3' style='padding: 0;'></div>
-                <div id='tab-2-seat-class-4' style='padding: 0;'></div>
-            </div> -->
-            
-            <!-- row3 seat selection -->
         </div>
     </form>
 </div>
@@ -188,7 +178,7 @@
                 fetchData('seatclass',{className: classList},(data,err)=>{
                     if(!err){
                         ticketingForm.temp.seatClassForPlan = data;
-                        ticketingForm.worker(ticketingForm.step+1);
+                        ticketingForm.worker(2);
                     }else{
                         console.log(err);
                     }

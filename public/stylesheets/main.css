@@ -6,8 +6,10 @@
     --color-black-2: #2E3136;
     --color-black-3: #36393E;
     --color-red: #EA4546;
-    --color-corngray: #747F8D;
+    --color-corngray: #2c3033;
     --color-cornblue: #7289da;
+    --color-corngold: #e6bd3e;
+    --color-cornpurple: #2c1451;
     --color-gray: #747f8d;
     --color-lightgreen-1: #7EF36F;
     --color-lightgreen-2: rgb(105, 206, 87);
@@ -358,7 +360,6 @@ button > i{
     display: flex;
     flex-direction: column;
     width: 90vw;
-    max-width: 300px;
     height: fit-content;
     background: #08090a;
     color: white;
@@ -416,7 +417,7 @@ button > i{
 .popup-footer .nav-btn{
     font-size: 2.5rem;
     position: absolute;
-    bottom: -10%;
+    bottom: -7px;
     cursor: pointer;
 }
 .popup-footer .nav-btn:nth-of-type(1){
@@ -657,12 +658,50 @@ input.hide, form .hide{
 .open-list li.selected .badge{
     border-color: black!important;
 }
-
+.screen-symbol{
+    font-size: 1rem;
+    justify-content: center;
+    display: flex;
+    border: 1px dashed #ffffff57;
+    border-radius: .25rem;
+    margin: 5px 0;
+}
+.screen-symbol:before{
+    content:'Screen';
+}
+input[type=checkbox].seat-dot-checkbox{
+    position   : absolute;
+    visibility : hidden;
+}
+input[type=checkbox].seat-dot-checkbox:checked+.seat-dot{
+    background: var(--color-green-tran-2);
+}
+input[type=checkbox].seat-dot-checkbox:checked+.seat-dot:before{
+    font-family: "Font Awesome 5 Free";
+    content: '\f00c';
+    color: var(--color-green);
+    font-weight: 900;
+    font-size: 0.8rem;
+}
+input[type=checkbox].seat-dot-checkbox:disabled+.seat-dot{
+    cursor: not-allowed;
+}
+input[type=checkbox].seat-dot-checkbox:disabled+.seat-dot:before{
+    font-family: "Font Awesome 5 Free";
+    content: '\f007';
+    color: var(--color-red);
+    font-weight: 900;
+    font-size: 0.8rem;
+}
 .seat-dot, .seat-dot.available{
+    color: #ffffffa3;
+    font-size: .6rem;
+    justify-content: center;
+    align-items: center;
     display: inline-flex;
     min-width: 25px;
     margin: 3px;
-    background: #ffffff38;
+    background: var(--color-corngray);
     width: 25px;
     height: 25px;
     border: 2.5px solid rgba(0, 0, 0, 0.5);
@@ -673,47 +712,70 @@ input.hide, form .hide{
     -ms-border-radius: .35rem;
     -o-border-radius: .35rem;
 }
-.seat-dot.selected{
-    background: var(--color-green);
+.seat-dot:before{
+    content: attr(data-seatcode);
 }
-.seat-dot.full{
-    background: var(--color-red);
-    cursor: crosshair;
+.seat-dot.couple, .seat-dot.available.couple{
+    padding: 0 15px;
 }
+.seat-dot.class-order-2{
+    background: var(--color-cornblue);
+    font-weight: 900;
+    color: black;
+}
+.seat-dot.class-order-3{
+    background: var(--color-corngold);
+    font-weight: 900;
+    color: black;
+}
+.seat-dot.class-order-4{
+    background: var(--color-cornpurple);
+    font-weight: 900;
+}
+
 .seat-dot+.seat-desc{
     font-size: .7rem;
     color: white;
 }
 
-.seat-allocation{
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.tab2-seat-renderarea{
-    overflow-x: auto; 
-    padding: 0!important;
-}
-
-.tab2-seat-renderarea #tab2-seat-class-1, .tab2-seat-renderarea #tab2-seat-class-2, 
-.tab2-seat-renderarea #tab2-seat-class-3, .tab2-seat-renderarea #tab2-seat-class-4{
+.seat-renderarea{
     overflow-x: auto;
-    padding: 0!important;
+    display: grid;
 }
 
-.tab2-seat-row{
-    display: flex;
-    justify-content: space-evenly;
+.seat-row{
     white-space: nowrap;
+    align-items: center;
+    justify-content: space-evenly;
+    display: flex;
 }
 
-@media screen and (max-width: 768px) {
+#buy-ticket-popup .ticket-renderarea{
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    width:70%;
+    margin: 10px auto;
+    position: relative;
+    background: white;
+    border: 2.5px solid rgba(0, 0, 0, 0.5);
+    height: 40px;
+    border-radius: 100rem;
+    -webkit-border-radius: 100rem;
+    -moz-border-radius: 100rem;
+    -ms-border-radius: 100rem;
+    -o-border-radius: 100rem;
+}
+
+#tab2-class-display span{
+    align-items: center;
+    display: flex;
+    font-size: .6rem;
+}
+
+@media screen and (max-width: 767px) {
     #buy-ticket-popup .floating{
         display: none;
-    }
-    #buy-ticket-popup .popup-window{
-        margin: auto;
     }
     #buy-ticket-popup.popup-area{
         margin: auto;

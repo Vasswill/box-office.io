@@ -66,7 +66,7 @@ class ticketingProcess {
                 this.form.closest('.popup-window').find('.popup-footer').append('<i class="nav-btn fas fa-arrow-circle-left"></i><i class="nav-btn fas fa-arrow-circle-right"></i>');
                 this.showPoster();
                 this.form.closest('.popup-area').addClass('row');
-                this.form.closest('.popup-window').addClass('col-8 plain');
+                this.form.closest('.popup-window').addClass('plain');
                 
                 this.form.find('#tab1 #tab1-movieName').text(this.movie.MovieName);
                 this.form.find('#tab1 #tab1-movieDesc').text(this.movie.Desc);
@@ -114,6 +114,11 @@ class ticketingProcess {
                 if(typeof this.temp.seatClassForPlan != 'undefined'){
                     let i = 1;
                     let rowNum = 0;
+                    
+                    let renderarea = this.form.find('#tab2 .seat-renderarea');
+                    renderarea.children().remove();
+                    renderarea.closest('.popup-window').find('#tab2-class-display').children().remove();
+                    renderarea.append('<div class="seat-row"></div>');
                     this.temp.seatClassForPlan.forEach(seatclass => {
                         let nPerRow = Math.floor(this.temp.planSelection.PlanWidth / seatclass.Width);
                         let nRow = this.temp.planSelection['NumberRow'+i];
@@ -121,18 +126,47 @@ class ticketingProcess {
                         let price = seatclass.Price;
                         let isCouple = !!seatclass.Couple;
 
-                        $('#tab-2-seat-class-'+i).children().remove();
-                        $('#tab-2-seat-class-'+i).append('<div class="tab2-seat-row"></div>');
                         for(let seatNum=0; seatNum<nPerRow*nRow; seatNum++){
                             let seatNumForThisRow = seatNum%(nPerRow)+1;
                             let seatChar = rowNum==0? String.fromCharCode(65 + rowNum%26).repeat(1) : String.fromCharCode(65 + rowNum%26).repeat(Math.ceil(rowNum/rowNum));
-                            $('#tab-2-seat-class-'+i).children().last().append('<div class="seat-dot available" data-seat-code="'+seatChar+seatNumForThisRow+'"></div>');
+                            let seatCode = seatChar+seatNumForThisRow;
+                            
+                            renderarea.children().last().append('<input type="checkbox" class="seat-dot-checkbox" id="'+seatCode+'" name="'+seatCode+'" value="'+1+'" data-seatprice="'+price+'">');
+                            renderarea.children().last().append('<label for="'+seatCode+'" class="seat-dot available '+(isCouple ? 'couple':'')+' class-order-'+i+'" data-seatcode="'+seatCode+'"></label>');
+                            
                             if(seatNumForThisRow==nPerRow){
                                 rowNum++;
-                                $('#tab-2-seat-class-'+i).append('<div class="tab2-seat-row"></div>');
+                                renderarea.append('<div class="seat-row"></div>');
                             }
                         }
-                        i++;
+                        if(this.step==2) renderarea.closest('.popup-window').find('#tab2-class-display').append('<span><label class="seat-dot available '+(isCouple ? 'couple':'')+' class-order-'+i+'"></label> '+seatclass.ClassName+(isCouple ? ' [Couple Seat]':'')+'</br>('+seatclass.Price+' .-)</span>');
+                        i++; 
+                    });
+
+
+                    
+                    renderarea[0].scrollLeft = renderarea.children().first().width() / 2 - renderarea.width()/2;
+                    if(this.step==2){
+                        renderarea.closest('.popup-window').find('#tab2-price-display').children().remove();
+                        renderarea.closest('.popup-window').find('#tab2-price-display').append('<div class="level2"><span id="tab2-seat-selection">0</span> Seat(s) Selected</div>');
+                        renderarea.closest('.popup-window').find('#tab2-price-display').append('<div class="level2">(Total Price:<span id="tab2-price-selection">0</span> Baht)</div>');
+                        
+                    }
+                    this.temp.seatSelection = 0;
+                    this.temp.rawPrice = 0;
+                    let temp = this.temp;
+                    renderarea.find('input[type=checkbox].seat-dot-checkbox').change(function(e){
+                        let numberTarget = renderarea.closest('.popup-window').find('#tab2-seat-selection');
+                        let priceTarget = renderarea.closest('.popup-window').find('#tab2-price-selection');
+                        if($(this)[0].checked){
+                            numberTarget.text(++temp.seatSelection);
+                            temp.rawPrice += parseFloat($(this).data('seatprice'));
+                            priceTarget.text(temp.rawPrice);
+                        }else{
+                            numberTarget.text(--temp.seatSelection);
+                            temp.rawPrice -= parseFloat($(this).data('seatprice'));
+                            priceTarget.text(temp.rawPrice);
+                        }
                     });
                 }
                 break;
