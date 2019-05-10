@@ -51,7 +51,7 @@ router.post('/plan', (req,res)=>{
                 callFunctionSql = [0,0]; //Insert and Update , Delete
                 data.Theatre.forEach((value) => {
                     switch(value.Detail.Type){
-                        case 'Update' : if(value.Detail.Old != value.Name){ sqlDelete += "'"+value.Detail.Old+"',"; callFunctionSql[1]=1; } 
+                        case 'Update' : if(value.Detail.Old != value.Name){ TheatreDelete.push(value.Detail.Old); callFunctionSql[1]=1; } 
                         case 'Create' : sqlInsert += "('"+value.Name+"','"+value.Branch+"','"+data.PlanName+"'),"; callFunctionSql[0]=1; break;
                         case 'Delete' : TheatreDelete.push(value.Detail.Old); callFunctionSql[1]=1; break;
                     }
