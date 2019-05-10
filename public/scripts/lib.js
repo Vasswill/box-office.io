@@ -55,8 +55,17 @@ class ticketingProcess {
         this.form.find('.form-tab#tab'+(typeof targetStep=='undefined' ? ++this.step : targetStep)).removeClass('hide');
         this.worker();
         
+        if(this.step==3){
+            this.form.closest('.popup-window').find('.popup-footer :nth-child(2)').hide();
+            this.form.closest('.popup-window').find('.popup-footer').append('<button class="btn-cornblue submit-btn"><i class="fas fa-cash-register"></i></button>');
+        }else{
+            this.form.closest('.popup-window').find('.popup-footer .submit-btn').remove();
+            this.form.closest('.popup-window').find('.popup-footer :nth-child(2)').show();
+        }
+
         this.form.closest('.popup-window').find('.popup-footer :nth-child(1)').off('click').click(()=>{this.iterate(this.step-1)});
         this.form.closest('.popup-window').find('.popup-footer :nth-child(2)').off('click').click(()=>{this.iterate(this.step+1)});
+        
     }
 
     worker(customStep=null){
@@ -68,11 +77,11 @@ class ticketingProcess {
                 this.form.closest('.popup-area').addClass('row');
                 this.form.closest('.popup-window').addClass('plain');
                 
-                this.form.find('#tab1 #tab1-movieName').text(this.movie.MovieName);
+                this.form.find('#tab1 #tab1-movieName, #tab3-movieName').text(this.movie.MovieName);
                 this.form.find('#tab1 #tab1-movieDesc').text(this.movie.Desc);
-                this.form.find('#tab1 #tab1-movieName+span .head-text-badge').children().remove();
-                this.form.find('#tab1 #tab1-movieName+span .head-text-badge').append("<span class='badge'>"+this.movie.Genre+"</span>");
-                this.form.find('#tab1 #tab1-movieName+span .head-text-badge').append("<span class='badge'>"+this.movie.Rate+"</span>");
+                this.form.find('#tab1 #tab1-movieName+span .head-text-badge, #tab3-badge').children().remove();
+                this.form.find('#tab1 #tab1-movieName+span .head-text-badge, #tab3-badge').append("<span class='badge'>"+this.movie.Genre+"</span>");
+                this.form.find('#tab1 #tab1-movieName+span .head-text-badge, #tab3-badge').append("<span class='badge'>"+this.movie.Rate+"</span>");
                 
                 this.temp.branchSchedule = {}
                 this.schedules.forEach((schedule) => {
@@ -131,7 +140,7 @@ class ticketingProcess {
                             let seatChar = rowNum==0? String.fromCharCode(65 + rowNum%26).repeat(1) : String.fromCharCode(65 + rowNum%26).repeat(Math.ceil(rowNum/rowNum));
                             let seatCode = seatChar+seatNumForThisRow;
                             
-                            renderarea.children().last().append('<input type="checkbox" class="seat-dot-checkbox" id="'+seatCode+'" name="'+seatCode+'" value="'+1+'" data-seatprice="'+price+'">');
+                            renderarea.children().last().append('<input type="checkbox" class="seat-dot-checkbox" id="'+seatCode+'" name="'+seatCode+'" value="'+1+'" data-seatcode="'+seatCode+'" data-seatprice="'+price+'">');
                             renderarea.children().last().append('<label for="'+seatCode+'" class="seat-dot available '+(isCouple ? 'couple':'')+' class-order-'+i+'" data-seatcode="'+seatCode+'"></label>');
                             
                             if(seatNumForThisRow==nPerRow){
@@ -154,6 +163,7 @@ class ticketingProcess {
                     }
                     this.temp.seatSelection = 0;
                     this.temp.rawPrice = 0;
+                    this.temp.seatList = [];
                     let temp = this.temp;
                     renderarea.find('input[type=checkbox].seat-dot-checkbox').change(function(e){
                         let numberTarget = renderarea.closest('.popup-window').find('#tab2-seat-selection');
@@ -162,13 +172,34 @@ class ticketingProcess {
                             numberTarget.text(++temp.seatSelection);
                             temp.rawPrice += parseFloat($(this).data('seatprice'));
                             priceTarget.text(temp.rawPrice);
+                            temp.seatList.push({
+                                seatCode: $(this).data('seatcode'),
+                                fullPrice: $(this).data('seatprice')
+                            });
                         }else{
                             numberTarget.text(--temp.seatSelection);
                             temp.rawPrice -= parseFloat($(this).data('seatprice'));
                             priceTarget.text(temp.rawPrice);
+                            temp.seatList = $.grep(temp.seatList, function(seat){
+                                return seat.seatCode != $(this).data('seatcode');
+                            })
                         }
                     });
                 }
+                break;
+            }
+            case 3:{
+                $('#tab3-time-period').text(this.temp.scheduleSelection.Time);
+                $('#tab3-branchName').text(this.temp.scheduleSelection.BranchName);
+                $('#tab3-theatreCode').text(this.temp.scheduleSelection.TheatreCode);
+                $('#tab3-seat-table').find('tr:not(:last-child)').remove();
+                let totalPrice = 0;
+                this.temp.seatList.forEach((seat)=>{
+                    totalPrice += parseFloat(seat.fullPrice);
+                    $('#tab3-seat-table').prepend('<tr><td>'+seat.seatCode+'</td><td id="tab3-'+seat.seatCode+'-deduct">-</td><td id="tab3-'+seat.seatCode+'-billing">'+seat.fullPrice+'.-</td></tr>');
+                })
+                $('#tab3-total-price').text(totalPrice+'.-');
+                this.form.closest('.popup-footer .nav-btn:nth-of-type(2):before').css('content','"\f788"');
                 break;
             }
         }
