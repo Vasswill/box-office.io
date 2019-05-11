@@ -11,7 +11,7 @@
                 <button type="button" id='reserv-nshow-movies' data-default-txt='Select Movie' data-default-class='btn-white' class="btn-white" style="width:49%;height:100%;display: inline-flex;"><span>Select Movie</span><i class="fas fa-sort-down"></i></button>
                 <div id='show-theatre-btn' class="dropdown">
                     <button class="btn-white dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id='reserv-nshow-branch' data-default-class='btn-white dropdown-toggle' data-default-disable='true' data-default-txt='Select Theatre Branch' style="width:49%;display: inline-flex;" disabled><span>Select Theatre Branch</span></button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style='transform: translate3d(0px, 31px, 0px)!important;width: -webkit-fill-available;'>
+                    <div class="dropdown-menu" id='tab0-dropdown-menu' aria-labelledby="dropdownMenuButton" style='transform: translate3d(0px, 25px, 0px)!important;width: -webkit-fill-available;'>
                     </div>
                 </div>
             </div>
@@ -62,8 +62,8 @@
             <div class='col-12' id='tab2-class-display' style='display:flex;justify-content: space-around;'></div>
         </div>
         <div class='form-tab row hide' id='tab3'>
-            <div class="col-7">
-                <div class="row">
+            <div class="col-sm-7 col-xs-12" style='padding:0;margin-bottom: 15px;'>
+                <div class="row" style='margin: 0 5px;'>
                     <div class='head-group col-12' data-color='red' style='padding: 7px 10px;border: 1px solid white; margin:3px 0;'>
                         <span id='tab3-movieName' class='head-text level1'></span>
                         <span class='head-text level2'>Branch:<span id='tab3-branchName'></span></span>
@@ -82,23 +82,25 @@
                     </div>
                 </div>
             </div>
-            <div class='col-5'>
-                <table class='table col-12'>
-                    <thead>
-                        <tr>
-                            <th>Seat No.</th>
-                            <th>Discount Rate</th>
-                            <th>Billing Price</th>
-                        </tr>
-                    </thead>
-                    <tbody id='tab3-seat-table'>
-                        <tr>
-                            <th class='table-foot'></th>
-                            <th class='table-foot' style='text-align: end;'>Total</th>
-                            <th class='table-foot' id='tab3-total-price'></th>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class='col-sm-5 col-xs-12' style='padding: 0 5px;'>
+                <div class="col-12" style="padding:0;max-height:50vh;overflow-y: scroll;">
+                    <table class='table'>
+                        <thead>
+                            <tr>
+                                <th>Seat No.</th>
+                                <th>Discount Rate</th>
+                                <th>Billing Price</th>
+                            </tr>
+                        </thead>
+                        <tbody id='tab3-seat-table'>
+                            <tr>
+                                <th class='table-foot'></th>
+                                <th class='table-foot' style='text-align: end;'>Total</th>
+                                <th class='table-foot' id='tab3-total-price'></th>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
                 <div class='col-12' style='padding: 7px 10px;border: 1px solid white; margin:3px 0;height: fit-content;'>
                         <div class="form-group">
                             <label for="login-username">Coupon</label>
