@@ -69,7 +69,12 @@ class ticketingProcess {
     }
 
     worker(customStep=null){
+        this.form.closest('.popup-window').find('.popup-body').css('overflow-y','scroll');
         switch(customStep==null ? this.step:customStep){
+            case 0:{
+                this.form.closest('.popup-window').find('.popup-body').css('overflow-y','visible');
+                break;
+            }
             case 1:{
                 this.form.closest('.popup-window').find('.popup-footer').children().remove();
                 this.form.closest('.popup-window').find('.popup-footer').append('<i class="nav-btn fas fa-arrow-circle-left"></i><i class="nav-btn fas fa-arrow-circle-right"></i>');
@@ -184,6 +189,42 @@ class ticketingProcess {
                                 return seat.seatCode != $(this).data('seatcode');
                             })
                         }
+                    });
+                    let ticketprocess = this;
+                    let enableDrag = false;
+                    let dragstartX = 0;
+                    let dragstartY = 0;
+                    let power = 0.1;
+                    renderarea.off('mousedown').mousedown(function(e){
+                        if(ticketprocess.step == 2){
+                            enableDrag = true; 
+                            dragstartX=e.pageX;
+                            dragstartY=e.pageY;
+                        }
+                        e.preventDefault();
+                    });
+                    renderarea.off('mouseup').mouseup(function(e){
+                        enableDrag = false;
+                        e.preventDefault();
+                    });
+                    renderarea.off('mousemove').mousemove(function(e){ 
+                        if(typeof enableDrag != 'undefined'){
+                            if(enableDrag && ticketprocess.step == 2) {
+                                let deltaX=e.pageX - dragstartX; 
+                                let deltaY=e.pageY - dragstartY; 
+                                $(this)[0].scrollLeft -= (deltaX*power);
+                                $(this)[0].scrollTop -= (deltaY*power);
+                            }
+                        }
+                        e.preventDefault();
+                    });
+                    renderarea.off('mouseleave').mouseleave(function(e){
+                        power = 0;
+                        e.preventDefault();
+                    });
+                    renderarea.off('mouseover').mouseover(function(e){
+                        power = 0.1;
+                        e.preventDefault();
                     });
                 }
                 break;
