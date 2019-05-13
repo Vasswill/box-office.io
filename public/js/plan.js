@@ -235,16 +235,18 @@ function LoadDataEditForm(PlanName){
         clearSeat(1);
         //console.log(data);
         var getdata = data[0];
-        $('#PlanName').val(getdata.PlanName);
-        document.getElementById("PlanHeight").value = getdata.PlanHeight;
-        document.getElementById("PlanWidth").value = getdata.PlanWidth;
-        planH();
-        planW();
-        getdata.SeatClass1&&$('#SeatClass1').val(getdata.SeatClass1)&&$('#NoRow1').val(getdata.NumberRow1)&&(renderCount[0]+=getdata.NumberRow1);
-        getdata.SeatClass2&&addSeat()&&$('#SeatClass2').val(getdata.SeatClass2)&&$('#NoRow2').val(getdata.NumberRow2)&&(renderCount[1]+=getdata.NumberRow2);
-        getdata.SeatClass3&&addSeat()&&$('#SeatClass3').val(getdata.SeatClass3)&&$('#NoRow3').val(getdata.NumberRow3)&&(renderCount[2]+=getdata.NumberRow3);
-        getdata.SeatClass4&&addSeat()&&$('#SeatClass4').val(getdata.SeatClass4)&&$('#NoRow4').val(getdata.NumberRow4)&&(renderCount[3]+=getdata.NumberRow4);
-        reRenderSeat();
+        if(getdata){
+            $('#PlanName').val(getdata.PlanName);
+            document.getElementById("PlanHeight").value = getdata.PlanHeight;
+            document.getElementById("PlanWidth").value = getdata.PlanWidth;
+            planH();
+            planW();
+            getdata.SeatClass1&&$('#SeatClass1').val(getdata.SeatClass1)&&$('#NoRow1').val(getdata.NumberRow1)&&(renderCount[0]+=getdata.NumberRow1);
+            getdata.SeatClass2&&addSeat()&&$('#SeatClass2').val(getdata.SeatClass2)&&$('#NoRow2').val(getdata.NumberRow2)&&(renderCount[1]+=getdata.NumberRow2);
+            getdata.SeatClass3&&addSeat()&&$('#SeatClass3').val(getdata.SeatClass3)&&$('#NoRow3').val(getdata.NumberRow3)&&(renderCount[2]+=getdata.NumberRow3);
+            getdata.SeatClass4&&addSeat()&&$('#SeatClass4').val(getdata.SeatClass4)&&$('#NoRow4').val(getdata.NumberRow4)&&(renderCount[3]+=getdata.NumberRow4);
+            reRenderSeat();
+        }
     });
     $.get('/fetchData/theatre/PlanName='+PlanName,(data)=>{
         console.log(data);
