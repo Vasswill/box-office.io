@@ -7,8 +7,9 @@ const   express = require('express'),
         passport = require('./passport');
 
 router.get('/fetchData/:table/:condition', (req,res) => {
+    //เรียกใช้ด้วย /fetchData/ชื่อตารางที่ต้องการดึงข้อมูล/เงื่อนไข(เช่น PlanName=Branch01 ไม่มีเว้นวรรค)ถ้าไม่มีเงื่อนไขให้ใส่ none
     var sql = "SELECT * FROM `"+req.params.table+"` ",
-        condition = req.params.condition.split("-");
+        condition = req.params.condition.split("=");
     if(condition[0]!="none"){
         sql += "WHERE `"+condition[0]+"` = '"+condition[1]+"'";
     }

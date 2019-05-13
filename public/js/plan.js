@@ -230,7 +230,7 @@ function sentPlanForm() {
 }
 
 function LoadDataEditForm(PlanName){
-    $.get('/fetchData/plan/PlanName-'+PlanName,(data)=>{
+    $.get('/fetchData/plan/PlanName='+PlanName,(data)=>{
         while(OpSeatCount>2){removeSeat();}
         clearSeat(1);
         //console.log(data);
@@ -246,7 +246,7 @@ function LoadDataEditForm(PlanName){
         getdata.SeatClass4&&addSeat()&&$('#SeatClass4').val(getdata.SeatClass4)&&$('#NoRow4').val(getdata.NumberRow4)&&(renderCount[3]+=getdata.NumberRow4);
         reRenderSeat();
     });
-    $.get('/fetchData/theatre/PlanName-'+PlanName,(data)=>{
+    $.get('/fetchData/theatre/PlanName='+PlanName,(data)=>{
         console.log(data);
         Theatre = [{Name:'Add New Theatre',Branch:'NULL',Detail:{Type:'Create',Old:''}}];
         data.forEach((value)=>{
