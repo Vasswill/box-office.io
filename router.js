@@ -35,9 +35,9 @@ router.post('/seat', (req,res) => {
         });
 });
 
-router.get('/plan', (req,res)=>{
-    res.render('partials/plan');
-});
+// router.get('/plan', (req,res)=>{
+//     res.render('partials/plan');
+// });
 
 router.post('/plan', (req,res)=>{
     var data = req.body;
