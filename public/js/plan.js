@@ -219,7 +219,8 @@ function sentPlanForm() {
     };
     if(payload.PlanName!='' && PlanHeight>0 && PlanWidth>0) $.post('/plan',payload,(res)=>{
         $('#plan-success').fadeTo(2000, 500).slideUp(500, function(){
-            $(this).hide(); 
+            $(this).hide();
+            cancelPlan();
         });
         //pageRedirect();
     });
@@ -232,7 +233,7 @@ function LoadDataEditForm(PlanName){
     $.get('/fetchData/plan/PlanName-'+PlanName,(data)=>{
         while(OpSeatCount>2){removeSeat();}
         clearSeat(1);
-        console.log(data);
+        //console.log(data);
         var getdata = data[0];
         $('#PlanName').val(getdata.PlanName);
         document.getElementById("PlanHeight").value = getdata.PlanHeight;
@@ -255,7 +256,48 @@ function LoadDataEditForm(PlanName){
     });
 }
 
-addSeat();
-addTable(Theatre);
-addBranchOption();
-getSeatClass();
+function cancelPlan() {
+    $('.content-view').show();
+    $('.content-form').hide();
+    $('#listPlanTable').find('tr').remove();
+    getPlanList();
+}
+
+function callPlanForm(err,PlanName = null) {
+    Theatre = [{Name:'Add New Theatre',Branch:'NULL',Detail:{Type:'Create',Old:''}}];
+    reRenderTHTable();
+    PlanHeight=0;PlanWidth=0;OpSeatCount=1;Thcount=0;nowTH=0;renderCount = [1,1,1,1];
+    $('#PlanName').val('');
+    document.getElementById("PlanHeight").value = 0;
+    document.getElementById("PlanWidth").value = 0;
+    planH();planW();
+    $('#TheatreBranch').find('option').remove();
+    $('.renderSeatPlan').find('div').remove();
+    $('#Th0').remove();
+    removeSeat();
+    $('#adj').find('div').remove();
+    $('#planForm').show();
+    $('.content-view').hide();
+    addSeat();
+    addTable(Theatre);
+    addBranchOption();
+    getSeatClass();
+    if(PlanName) LoadDataEditForm(PlanName);
+}
+
+$(document).on("click","#createPlan", callPlanForm);
+
+function addListPlanTable(data) {
+    data.forEach((value, key) => {
+        var tableRowappend = '<tr class="default-mouse" ><th style="border:1px solid white;" class="text-white pl-3 planTable" scope="col">'+value.PlanName+'</th></tr>'
+        $("#listPlanTable").append(tableRowappend);
+    });
+    //$('#Th'+nowTH).addClass('bg-secondary').siblings().removeClass('bg-secondary');
+}
+
+function getPlanList(){
+    $.get('/fetchData/plan/none',(data)=>{
+            addListPlanTable(data);
+    });
+}
+getPlanList();
