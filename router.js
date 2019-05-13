@@ -69,7 +69,7 @@ router.post('/plan', (req,res)=>{
                     console.log(sql);
                     mysql.connect(sql,TheatreDelete)
                         .then((resp)=>{
-                            if(callFunctionSql[0]){
+                            if(callFunctionSql[0]&&callFunctionSql[1]){
                                 sql = sqlInsert;
                                 mysql.connect(sql).then((resp)=>{
                                     console.log(resp);
