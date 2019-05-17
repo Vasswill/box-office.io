@@ -423,7 +423,7 @@ button > i{
 .popup-window .popup-body{
     flex: 1;
     padding: 5px;
-    overflow-y: scroll;
+    /* overflow-y: scroll; */
 }
 
 .popup-window .form-group, .popup-window .form-control{
