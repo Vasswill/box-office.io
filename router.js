@@ -141,6 +141,18 @@ router.get('/seatclass', (req,res)=>{
     });
 });
 
+router.post('/tickets', (req,res)=>{
+    console.log(req.body);
+    let seatList = req.body.seatCode;
+    let movieNo = req.body.movieNo;
+    let scheduleNo = req.body.scheduleNo;
+    let email = req.body.userEmail;
+    let telephone = req.body.userTele;
+
+    
+    res.redirect('/');
+});
+
 // v ==== CHANGE ROUTE NAME IMMEDIATELY! PLEASE STRICTLY COMPLY WITH THE REST-API CONVENTION!!! ==== v
 // router.get('/fetchBranchData', (req,res) => {
 //     var sql = "SELECT * FROM `branch`";

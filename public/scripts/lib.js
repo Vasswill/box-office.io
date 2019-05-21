@@ -32,6 +32,38 @@ class ticketingProcess {
         this.temp={};
         this.webState = webState;
         if(this.movie) this.showPoster;
+
+        this.form.find('input').addClass('inactiveStep');
+        this.validator = this.form.validate({
+            rules: { 
+                "seatCode[]": { 
+                        required: true, 
+                        minlength: 1 
+                } 
+            }, 
+            messages: {
+                movieName: {
+                    required: "Please select a movie of your choice"
+                },
+                movieNo: {
+                    required: ""
+                },
+                branchNo:{
+                    required: ""
+                },
+                scheduleNo:{
+                    required: "Please select a schedule to continue"
+                },
+                userEmail:{
+                    required: "Please enter your email address"
+                },
+                userTele:{
+                    required: "Your telephone number is needed"
+                },
+                "seatCode[]": ""
+            },
+            ignore: ".inactiveStep"
+        });
     }
 
     showPoster(){
@@ -53,19 +85,48 @@ class ticketingProcess {
         }
         this.form.find('.form-tab').addClass('hide');
         this.form.find('.form-tab#tab'+(typeof targetStep=='undefined' ? ++this.step : targetStep)).removeClass('hide');
-        this.worker();
         
+        this.form.find('input').addClass('inactiveStep');
+        this.form.find('.form-tab#tab'+(typeof targetStep=='undefined' ? this.step : targetStep)+' input').removeClass('inactiveStep');
+        
+        this.worker();
+
+        this.validator.resetForm();
+        this.form.closest('.popup-window').find('.popup-footer :nth-child(2)').attr("disabled", true);
+        this.form.closest('.popup-window').find('.popup-footer :nth-child(1)').off('click').click(()=>{
+            console.log('retrograde');
+            this.iterate(this.step-1);
+            if(this.step > 0) this.form.find('.form-tab#tab'+this.step+' input').val('');
+        });
+        this.form.closest('.popup-window').find('.popup-footer :nth-child(2)').off('click').click(()=>{
+            if(this.form.valid()) {
+                this.iterate(this.step+1);
+            }
+        });
+
         if(this.step==3){
             this.form.closest('.popup-window').find('.popup-footer :nth-child(2)').hide();
-            this.form.closest('.popup-window').find('.popup-footer').append('<button class="btn-cornblue submit-btn"><i class="fas fa-cash-register"></i></button>');
+            this.form.closest('.popup-window').find('.popup-footer').append('<button type="submit" class="btn-cornblue submit-btn"><i class="fas fa-cash-register"></i></button>');
+            this.form.closest('.popup-window').find('.popup-footer .submit-btn').attr("disabled", true);
+            
+            this.form.closest('.popup-window').find('.popup-footer .submit-btn').off('click').click(function(e){
+                $('#reservation-form-element')[0].submit();
+                //e.preventDefault();
+            });
         }else{
             this.form.closest('.popup-window').find('.popup-footer .submit-btn').remove();
             this.form.closest('.popup-window').find('.popup-footer :nth-child(2)').show();
         }
+    }
 
-        this.form.closest('.popup-window').find('.popup-footer :nth-child(1)').off('click').click(()=>{this.iterate(this.step-1)});
-        this.form.closest('.popup-window').find('.popup-footer :nth-child(2)').off('click').click(()=>{this.iterate(this.step+1)});
-        
+    allowContinue(form, button = undefined){
+        if(form.valid()){
+            form.closest('.popup-window').find('.popup-footer :nth-child(2)').attr("disabled", false);
+            if(button)button.attr("disabled", false);
+        }else{
+            form.closest('.popup-window').find('.popup-footer :nth-child(2)').attr("disabled", true);
+            if(button)button.attr("disabled", false);
+        }
     }
 
     worker(customStep=null){
@@ -76,6 +137,9 @@ class ticketingProcess {
                 break;
             }
             case 1:{
+                if(typeof this.webState.temp.branchSelection != 'undefined'){
+                    this.form.find('#tab1-branchNo').val(this.webState.temp.branchSelection);
+                }
                 this.form.closest('.popup-window').find('.popup-footer').children().remove();
                 this.form.closest('.popup-window').find('.popup-footer').append('<i class="nav-btn fas fa-arrow-circle-left"></i><i class="nav-btn fas fa-arrow-circle-right"></i>');
                 this.showPoster();
@@ -118,12 +182,14 @@ class ticketingProcess {
                             origin.temp.scheduleSelection = schedule;
                             $(this).addClass('selected');
                             $(this).siblings().removeClass('selected');
+                            origin.allowContinue(origin.form);
                         });
                     });
                 });
                 break;
             }
             case 2: {
+                 
                 this.form.find('#tab2-theatreCode').text(this.temp.scheduleSelection.TheatreCode);
                 if(typeof this.temp.seatClassForPlan != 'undefined'){
                     let i = 1;
@@ -145,7 +211,7 @@ class ticketingProcess {
                             let seatChar = rowNum==0? String.fromCharCode(65 + rowNum%26).repeat(1) : String.fromCharCode(65 + rowNum%26).repeat(Math.ceil(rowNum/rowNum));
                             let seatCode = seatChar+seatNumForThisRow;
                             
-                            renderarea.children().last().append('<input type="checkbox" class="seat-dot-checkbox" id="'+seatCode+'" name="'+seatCode+'" value="'+1+'" data-seatcode="'+seatCode+'" data-seatprice="'+price+'">');
+                            renderarea.children().last().append('<input type="checkbox" class="seat-dot-checkbox inactiveStep" id="'+seatCode+'" name="seatCode[]" value='+seatCode+' data-seatcode="'+seatCode+'" data-seatprice="'+price+'">');
                             renderarea.children().last().append('<label for="'+seatCode+'" class="seat-dot available '+(isCouple ? 'couple':'')+' class-order-'+i+'" data-seatcode="'+seatCode+'"></label>');
                             
                             if(seatNumForThisRow==nPerRow){
@@ -170,6 +236,7 @@ class ticketingProcess {
                     this.temp.rawPrice = 0;
                     this.temp.seatList = [];
                     let temp = this.temp;
+                    let self = this;
                     renderarea.find('input[type=checkbox].seat-dot-checkbox').change(function(e){
                         let numberTarget = renderarea.closest('.popup-window').find('#tab2-seat-selection');
                         let priceTarget = renderarea.closest('.popup-window').find('#tab2-price-selection');
@@ -185,10 +252,16 @@ class ticketingProcess {
                             numberTarget.text(--temp.seatSelection);
                             temp.rawPrice -= parseFloat($(this).data('seatprice'));
                             priceTarget.text(temp.rawPrice);
-                            temp.seatList = $.grep(temp.seatList, function(seat){
-                                return seat.seatCode != $(this).data('seatcode');
-                            })
+                            let newSeatList = [];
+                            temp.seatList.forEach((seat)=>{
+                                if(seat.seatCode != $(this).data('seatcode')){
+                                    newSeatList.push(seat);
+                                }
+                            });
+                            temp.seatList = newSeatList;
+                            
                         }
+                        self.allowContinue(self.form);
                     });
                     let ticketprocess = this;
                     let enableDrag = false;
@@ -227,6 +300,11 @@ class ticketingProcess {
                         e.preventDefault();
                     });
                 }
+
+                if(this.step==2){
+                    this.form.find("#tab2 input.inactiveStep").removeClass('inactiveStep');
+                }
+
                 break;
             }
             case 3:{
@@ -240,7 +318,10 @@ class ticketingProcess {
                     $('#tab3-seat-table').prepend('<tr><td>'+seat.seatCode+'</td><td id="tab3-'+seat.seatCode+'-deduct">-</td><td id="tab3-'+seat.seatCode+'-billing">'+seat.fullPrice+'.-</td></tr>');
                 })
                 $('#tab3-total-price').text(totalPrice+'.-');
-                this.form.closest('.popup-footer .nav-btn:nth-of-type(2):before').css('content','"\f788"');
+                let self = this;
+                this.form.find('#tab3 input').off('change').on('change', function(){
+                    self.allowContinue(self.form, self.form.closest('.popup-window').find('.popup-footer .submit-btn'));
+                });
                 break;
             }
         }
