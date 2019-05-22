@@ -117,6 +117,26 @@ router.get('/plan', (req,res)=>{
     });
 });
 
+router.get('/coupon', (req,res)=>{
+    console.log('user sent=>',req.query);
+    let code = req.query.code == '' ? undefined:req.query.code;
+    let query = "SELECT * FROM `coupon` "
+                    + "WHERE `CouponCode`='"+code+"'";
+    mysql.connect(query)
+    .then((resp)=>{
+        if(resp.rows.length <= 0){
+            //return
+            res.status(200).send([]);
+            return;
+        }
+        console.log('found',resp.rows.length,'coupon with code "'+code+'"');
+        res.send(resp.rows);
+    })
+    .catch((err)=>{
+        console.log('error',err);
+    });
+});
+
 router.get('/seatclass', (req,res)=>{
     let classNames = req.query.className == '' ? undefined:req.query.className;
     let query = "SELECT * FROM `seatclass` WHERE "
@@ -142,15 +162,47 @@ router.get('/seatclass', (req,res)=>{
 });
 
 router.post('/tickets', (req,res)=>{
-    console.log(req.body);
     let seatList = req.body.seatCode;
     let movieNo = req.body.movieNo;
     let scheduleNo = req.body.scheduleNo;
     let email = req.body.userEmail;
-    let telephone = req.body.userTele;
-
+    let telephone = (typeof req.body.telephone != 'undefined') ? req.body.userTele:undefined;
+    let coupon = undefined;
+    if(typeof req.body.coupon != 'undefined') {
+        coupon = (req.body.coupon!='') ? req.body.coupon.toUpperCase():undefined;
+    }
+    //identify issuer
     
+    //initialize ticket
+    let ticketList = [];
+    seatCode.forEach((reservation)=>{
+
+    });
+    //validate coupon
+    let couponApply = false;
+    if(coupon){
+        let query = "SELECT * FROM `coupon` "
+                    + "WHERE `CouponCode`='"+coupon+"'";
+        mysql.connect(query)
+        .then((resp)=>{
+            if(resp.rows.length <= 0){
+                couponApply = false;
+            }else couponApply = true;
+            
+        })
+        .catch((err)=>{
+            console.log('error',err);
+        });
+    }
+
+    //
+    
+    console.log('==========\nTicket(s) Requested:\n('+seatList.length+' seat(s))\n', req.body,'==========');
     res.redirect('/');
+});
+
+router.post('/tickets/:ticketId/confirm', (req,res)=>{
+
 });
 
 // v ==== CHANGE ROUTE NAME IMMEDIATELY! PLEASE STRICTLY COMPLY WITH THE REST-API CONVENTION!!! ==== v
