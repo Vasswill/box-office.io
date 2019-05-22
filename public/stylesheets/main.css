@@ -436,13 +436,6 @@ button > i{
     -ms-border-radius: .2rem!important;
     -o-border-radius: .2rem!important;
 }
-.popup-window input{
-    
-}
-.popup-window input:focus{
-    
-}
-
 .popup-window #popup-head-text{
     margin: auto;
 }
@@ -454,6 +447,9 @@ button > i{
     font-size: 2.5rem;
     bottom: -7px;
     cursor: pointer;
+}
+.popup-footer .nav-btn[disabled]{
+    opacity: .2;
 }
 .form-group{
     font-size: .85rem;
@@ -512,7 +508,7 @@ button > i{
     -moz-border-radius: 50%;
     -ms-border-radius: 50%;
     -o-border-radius: 50%;
-    -webkit-animation: none;
+    /* -webkit-animation: none; */
 }
 
 .fetch.userpic[src='']{

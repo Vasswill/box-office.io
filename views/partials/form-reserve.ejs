@@ -1,8 +1,8 @@
 <div class='content-form' id='reservation-form'>
-    <form action="" id='reservation-form-element'>
+    <form action="/tickets" method="POST" id='reservation-form-element'>
         <div class="form-tab row" id='tab0'>
-            <input type="text" id='movieName' name='movieName' class="hide">
-            <input type="number" id='movieNo' name='movieNo' class="hide">
+            <input type="text" id='movieName' name='movieName' class="hide" required>
+            <input type="number" id='movieNo' name='movieNo' class="hide" required>
             <div class='col-12 head-group' data-color='red'>
                 <span class='tab-head head-text level1'>Select Movie</span>
                 <span class='head-text level2'>Movie & Theatre shown below</span>
@@ -24,8 +24,8 @@
             </div>
         </div>
         <div class='form-tab row hide' id='tab1'>
-            <input type="text" id='tab1-branchNo' name='branchNo' class="hide">
-            <input type="text" id='tab1-scheduleNo' name='scheduleNo' class="hide">
+            <input type="text" id='tab1-branchNo' name='branchNo' class="hide" required>
+            <input type="text" id='tab1-scheduleNo' name='scheduleNo' class="hide" required>
             <div class='head-group' data-color='red' style='padding-bottom: 10px;border-bottom: 1px solid #ffffff47;'>
                 <span id='tab1-movieName' class='head-text level1'></span>
                 <span class='head-text level2' style='margin-top: 7px; margin-bottom: 0;'>Description <span class='head-text-badge'></span></span>
@@ -72,12 +72,12 @@
                     </div>
                     <div class='head-group col-12' data-color='red' style='padding: 7px 10px;border: 1px solid white; margin:3px 0;'>
                         <div class="form-group">
-                            <label for="login-username">Email</label>
-                            <input class="form-control" type="email" id='login-username' name='username'>
+                            <label for="ticketing-email">Email</label>
+                            <input class="form-control" type="email" id='ticketing-email' name='userEmail' required>
                         </div>
                         <div class="form-group">
-                            <label for="login-username">Telephone No.</label>
-                            <input class="form-control" type="telephone" id='login-username' name='username'>
+                            <label for="ticketing-tele">Telephone No.</label>
+                            <input class="form-control" type="tel" id='ticketing-tele' name='userTele' required>
                         </div>
                     </div>
                 </div>
@@ -103,8 +103,8 @@
                 </div>
                 <div class='col-12' style='padding: 7px 10px;border: 1px solid white; margin:5px 0;height: fit-content;'>
                         <div class="form-group">
-                            <label for="login-username">Coupon</label>
-                            <input class="form-control" type="text" id='login-username' name='username' style='text-transform: uppercase'>
+                            <label for="ticketing-coupon">Coupon</label>
+                            <input class="form-control" type="text" id='ticketing-coupon' name='coupon' style='text-transform: uppercase'>
                         </div>
                 </div>
             </div>
@@ -172,6 +172,7 @@
     $('#buy-ticket-popup').on('init', function(){
         $('#reserv-nshow-branch').trigger('reset');
         $('#reserv-nshow-movies').trigger('reset');
+        $('#reserv-nshow-branch').attr("disabled", true);
         $('#reserv-nshow-branch+.dropdown-menu').children().remove();
         if(ticketingForm) ticketingForm.kill();
         ticketingForm = new ticketingProcess(
