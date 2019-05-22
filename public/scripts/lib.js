@@ -326,9 +326,19 @@ class webstate{
 class ScheduleProcess{
     constructor(){
         // ตัวแปรเก็บ + (operationดึง+onclick)
-        fetchData("movies",{MovieNo})
-        fetchData("branch",{BranchNo})
-        fetchData("theatre",{TheatreCode})
+        // fetchData("movies",{MovieNo})
+        // fetchData('movies',{status: 'show'},(data,err)=>{
+        //     if(!err){
+        //         this.showingList = data;
+        //         this.renderMoviesGrid($('.program-row'), 'index-row');
+        //         this.renderMoviesGrid($('.reserv-render-area'));
+        //     }else{
+        //         console.log(err);
+        //     }
+        // }); 
+        // fetchData("branch",{BranchNo})
+        
+        // fetchData("theatre",{TheatreCode})
     }
     // function อื่นๆ เรียก ondemand
 }
