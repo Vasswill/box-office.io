@@ -223,7 +223,7 @@
         //$('#buy-ticket-popup').data('schedule', JSON.stringify(schedules));
         let i = 0;
         webState.temp.schedulesSelection.forEach((schedule)=>{
-            if($('#reserv-nshow-branch+.dropdown-menu').last().text() != schedule.BranchName){
+            if($('#reserv-nshow-branch+.dropdown-menu').children().last().text() != schedule.BranchName){
                 $('#reserv-nshow-branch+.dropdown-menu').append("<div class='dropdown-item' onclick='selectTheatreBranch("+schedule.BranchNo+")'>"+schedule.BranchName+"</div>");
             }
         });
